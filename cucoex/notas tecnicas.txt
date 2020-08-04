@@ -1,0 +1,16 @@
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<div th:if="${editMode}" th:include="user-form/change-password.html" th:remove="tag"></div>
+<div th:include="user-form/confirm-delete-dialog.html" th:remove="tag"></div>
+
+ <!-- Begin Page Content Incluir Botones.html-->
+        <div th:include="botones.html" th:remove="tag"></div>
+        
+ 
+ 
+ Manejo de datos en Tablas
+ 
+ https://datatables.net/manual/data/
+ 
+ 
