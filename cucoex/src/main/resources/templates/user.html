@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>CuCoEx - Escritorio</title>
+  <title>CuCoEx - Lista de usuarios</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -17,6 +17,40 @@
 
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+
+<!--  Para lista de y edicion de registros -->
+
+
+  <link rel="icon" href="mdb/img/mdb-favicon.ico" type="image/x-icon">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+  <!-- Google Fonts Roboto -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="mdb/css/bootstrap.min.css">
+  <!-- Material Design Bootstrap -->
+  <link rel="stylesheet" href="mdb/css/mdb.min.css">
+  <!-- Your custom styles (optional) -->
+  <link rel="stylesheet" href="mdb/css/style.css">
+  <!-- MDBootstrap Datatables  -->
+<link href="mdb/css/addons/datatables.min.css" rel="stylesheet">
+
+<script type="text/javascript">
+  	table.dataTable thead .sorting:after,
+	table.dataTable thead .sorting:before,
+	table.dataTable thead .sorting_asc:after,
+	table.dataTable thead .sorting_asc:before,
+	table.dataTable thead .sorting_asc_disabled:after,
+	table.dataTable thead .sorting_asc_disabled:before,
+	table.dataTable thead .sorting_desc:after,
+	table.dataTable thead .sorting_desc:before,
+	table.dataTable thead .sorting_desc_disabled:after,
+	table.dataTable thead .sorting_desc_disabled:before 
+	bottom: .5em;
+</script>
+
+
 
 </head>
 
@@ -38,8 +72,14 @@
         <!-- End of Topbar -->
 
 
-        <!-- Begin Page Content User list -->
+        <!-- Begin Page Content User list AQUI LLAMAR USER -VIEW-->
+        <!--
          <div th:include="user_list.html" th:remove="tag"></div>
+         
+         
+         
+       -->
+       <div th:include="catUser/UserCrud.html" th:remove="tag"></div>
        
       <!-- End of Main Content -->
 
@@ -60,7 +100,22 @@
   </a>
 
   <div th:include="footer_main.html" th:remove="tag"></div>
+  
+  
+  <!-- Your custom scripts (optional) -->
+  <script type="text/javascript">
+ $(document).ready(function () {
+$('#dtBasicExample').DataTable();
+$('.dataTables_length').addClass('bs-select');
+});
+ 
+ </script>
+ 
 
 </body>
 
 </html>
+
+
+
+

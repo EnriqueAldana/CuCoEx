@@ -1,0 +1,20 @@
+
+Usuarios
+
+		Listar usuarios.
+		1.- NO muestra lista con opciones de ordenamiento, filtra , etc..  OK
+		Agregar Usuario.
+		2.- No valida campos vacios      OK
+		Actualizar usuario
+		3.- 
+		4.- Cambiar contraseña no funciona
+		
+		
+		Eliminar usuario.
+		5.- No elimina usuario.............OK
+	Falta	6.- Se puede eliminar usuario desde el url con http://localhost:8080//deleteUser/5  AQUI HAY QUE APLICAR SEGURIDAD
+		
+		
+
+		Base de Datos
+		A)  Script inicial de datos

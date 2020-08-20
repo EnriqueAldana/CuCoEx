@@ -8,6 +8,7 @@ package com.cucoex.entity;
  *
  */
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -19,42 +20,106 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+import javax.persistence.*;
+
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.JoinColumn;
 
 @Entity
-public class User implements Serializable{
+public class User implements Serializable {
 
 	private static final long serialVersionUID = -6833167247955613395L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="native")
-	@GenericGenerator(name="native",strategy="native")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	@GenericGenerator(name = "native", strategy = "native")
 	private Long id;
-	
-	@Column 
+
+	@Column(nullable = false)
+	@NotEmpty
+	@Size(min = 1, max = 254)
 	private String firstName;
-	@Column 
+
+	@Column(nullable = false)
+	@NotEmpty
+	@Size(min = 1, max = 254)
 	private String lastName;
-	@Column(unique = true) 
+
+	@Column(unique = true ,nullable = false)
+	@NotEmpty
+	@Size(min = 6, message = "La longitud minima de un correo elec debe ser de al menos 6 caracteres")
 	private String email;
-	@Column(unique = true) 
+
+	@Column(nullable = false)
+	@NotEmpty
+	@Size(min = 1, max = 254)
 	private String username;
-	@Column
+
+	/**
+	 * @return the updated
+	 */
+	public Calendar getUpdated() {
+		return updated;
+	}
+
+	/**
+	 * @param updated the updated to set
+	 */
+	public void setUpdated(Calendar updated) {
+		this.updated = updated;
+	}
+
+	@Column(nullable = false)
+	@NotEmpty
+	@Size(min = 4, max = 10)
 	private String password;
-	
-	@Transient 
+
+	@Transient
+	@Size(min = 4, max = 10)
 	private String confirmPassword;
 	
+	@Column(nullable = false,columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Calendar updated;
+	
+	@Column(nullable = false,columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Calendar created;
+
+	
+	
+	
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name="user_roles"
-		,joinColumns=@JoinColumn(name="user_id")
-		,inverseJoinColumns=@JoinColumn(name="role_id"))
+	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
+
 	
-	public User() {	}
+	@ManyToMany(fetch = FetchType.LAZY) 
+	@JoinTable(name="users_companies" ,joinColumns=@JoinColumn(name="user_id")
+	,inverseJoinColumns=@JoinColumn(name="company_id")) 
+	private Set<Company> companies;
 	
+	
+	/**
+	 * @return the companies
+	 */
+	public Set<Company> getCompanies() {
+		return companies;
+	}
+
+	/**
+	 * @param companies the companies to set
+	 */
+	public void setCompanies(Set<Company> companies) {
+		this.companies = companies;
+	}
+
+	public User() {
+	}
+
 	public User(Long id) {
 		this.id = id;
 	}
@@ -119,9 +184,51 @@ public class User implements Serializable{
 		return roles;
 	}
 
-	public void setRoles( Set<Role> roles) {
+	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+
+	
+
+	
+	/**
+	 * @return the lastUpdated
+	 */
+	public Calendar getLastUpdated() {
+		return updated;
+	}
+
+	/**
+	 * @param lastUpdated the lastUpdated to set
+	 */
+	public void setLastUpdated(Calendar lastUpdated) {
+		this.updated = lastUpdated;
+	}
+
+	/**
+	 * @return the created
+	 */
+	public Calendar getCreated() {
+		return created;
+	}
+
+	/**
+	 * @param created the created to set
+	 */
+	public void setCreated(Calendar created) {
+		this.created = created;
+	}
+
+	/*
+	 * public Set<Company> getCompanies() { return companies; }
+	 * 
+	 *//**
+		 * @param companies the companies to set
+		 *//*
+			 * public void setCompanies(Set<Company> companies) { this.companies =
+			 * companies; }
+			 * 
+			 */
 
 	@Override
 	public int hashCode() {
@@ -194,8 +301,24 @@ public class User implements Serializable{
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", username=" + username + ", password=" + password + ", confirmPassword=" + confirmPassword
+				+ ", created=" 
+				+ created.get(Calendar.DAY_OF_MONTH) + "/"
+				+ created.get(Calendar.MONTH) + "/"
+				+ created.get(Calendar.YEAR ) + " "
+				+ created.get(Calendar.HOUR ) + ":"
+				+ created.get(Calendar.MINUTE ) + ":"
+				+ created.get(Calendar.SECOND)
+				
+				+ ", updated=" +  
+				
+				+ updated.get(Calendar.DAY_OF_MONTH) + "/"
+				+ updated.get(Calendar.MONTH) + "/"
+				+ updated.get(Calendar.YEAR )  + " "
+				+ updated.get(Calendar.HOUR ) + ":"
+				+ updated.get(Calendar.MINUTE )+ ":"
+				+ updated.get(Calendar.SECOND)
+				
 				+ ", roles=" + roles + "]";
-	}       
-	
-	
-} 
+	}
+
+}

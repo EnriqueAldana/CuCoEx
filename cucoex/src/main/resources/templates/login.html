@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 
   <meta charset="utf-8">
@@ -39,15 +38,18 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Sistema de Cumplimiento al Comercio Exterior.</h1>
                   </div>
-                  <form class="user">
+                  
+                  
+                  
+                  <form class="user" th:action="@{/login}" method="post">
                   <div class="form-group">
-                      <input type="email" class="form-control form-control-user" id="Rfc_empresa" aria-describedby="rfcHelp" placeholder="Escriba el RFC de la empresa...">
+                      <input type="rfc" class="form-control form-control-user" id="Rfc_empresa" name="rfc" aria-describedby="rfcHelp" placeholder="Escriba el RFC de la empresa...">
                     </div>
                     <div class="form-group">
-                      <input type="email" class="form-control form-control-user" id="InputEmail" aria-describedby="emailHelp" placeholder="Escriba su correo...">
+                      <input type="email" class="form-control form-control-user" id="InputEmail" name="email" aria-describedby="emailHelp" placeholder="Escriba su correo...">
                     </div>
                     <div class="form-group">
-                      <input type="password" class="form-control form-control-user" id="InputPassword" placeholder="Escriba su contraseña...">
+                      <input type="password" class="form-control form-control-user" id="InputPassword" name="password" placeholder="Escriba su contraseña...">
                     </div>
                     <div class="form-group">
                       <div class="custom-control custom-checkbox small">
@@ -61,10 +63,18 @@
                     <hr>
   
                   </form>
-                  <hr>
-                  <div class="text-center">
-                    <a class="small" href="forgot-password.html">Olvido su contraseña?</a>
-                  </div>
+                  
+                  <div class="col-12 forgot">
+                    <p><a href="#">Recordar contrasena?</a></p>
+                    <p><a href="#" th:href="@{/signup}">Crear Usuario - Registrarse</a>
+                </div>
+                <div th:if="${param.error}" class="alert alert-danger" role="alert">
+		            Uuario o contraseña incorrectos.
+		        </div>
+		        <div th:if="${param.logout}" class="alert alert-success" role="alert">
+		            Ud. ha salido del sistema.
+		        </div>
+		        
                   
                 </div>
               </div>
