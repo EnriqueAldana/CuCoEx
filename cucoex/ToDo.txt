@@ -18,3 +18,15 @@ Usuarios
 
 		Base de Datos
 		A)  Script inicial de datos
+		
+		
+		Catalog de empresas
+		
+		Hacer agregar empresa .........
+		
+		Eliminar empresa.......No anuncia errores al borrar....
+		
+		Acordeon empresa
+		
+		https://mdbootstrap.com/docs/jquery/javascript/accordion/
+		

@@ -6,6 +6,7 @@ package com.cucoex.entity;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -38,24 +40,7 @@ public class Cumplimiento implements Serializable {
 	@GenericGenerator(name = "native", strategy = "native")
 	private Long id;
 	
-	
-	
-	// El estatus puede cambiar Por: La fecha actual es mayor a la fecha de vigencia para cumplimiento. El usuario determina que no se cumple.
-	
-	@Column(nullable=false)
-	@NotEmpty
-	@Size(min=1, max=10)
-	private String statusKey;
-	
-	@Column(nullable=false)
-	@NotEmpty
-	@Size(min=1, max=10)
-	private String statusName;
-	
-	@Column(nullable=false)
-	@NotEmpty
-	@Size(min=1, max=10)
-	private String statusDescription;
+
 	
 	@Column(nullable = false)
 	private Date effectiveDateForCompliance;          // Fecha de Vigencia para cumplimiento
@@ -73,53 +58,42 @@ public class Cumplimiento implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar updated;
 	
-	@OneToOne
-	  @JoinColumn(name="id")
-	  private Causal causal;
+	/*
+	 * @OneToOne
+	 * 
+	 * @JoinColumn(name="id") private Causal causal;
+	 */
+	
+	// El estatus puede cambiar Por: La fecha actual es mayor a la fecha de vigencia para cumplimiento. El usuario determina que no se cumple.
+
 	
 
+	@ManyToOne
+    @JoinColumn(name="statusId")
+	private Status status;
 	
 	
-	/**
-	 * @return the statusKey
-	 */
-	public String getStatusKey() {
-		return statusKey;
-	}
+	
 
 	/**
-	 * @param statusKey the statusKey to set
+	 * @param id
+	 * @param effectiveDateForCompliance
+	 * @param complianceEvaluationDate
+	 * @param created
+	 * @param updated
+	 * @param causal
+	 * @param status
 	 */
-	public void setStatusKey(String statusKey) {
-		this.statusKey = statusKey;
-	}
-
-	/**
-	 * @return the statusName
-	 */
-	public String getStatusName() {
-		return statusName;
-	}
-
-	/**
-	 * @param statusName the statusName to set
-	 */
-	public void setStatusName(String statusName) {
-		this.statusName = statusName;
-	}
-
-	/**
-	 * @return the statusDescription
-	 */
-	public String getStatusDescription() {
-		return statusDescription;
-	}
-
-	/**
-	 * @param statusDescription the statusDescription to set
-	 */
-	public void setStatusDescription(String statusDescription) {
-		this.statusDescription = statusDescription;
+	public Cumplimiento(Long id, Date effectiveDateForCompliance, Date complianceEvaluationDate, Calendar created,
+			Calendar updated, Causal causal, Status status) {
+		super();
+		this.id = id;
+		this.effectiveDateForCompliance = effectiveDateForCompliance;
+		this.complianceEvaluationDate = complianceEvaluationDate;
+		this.created = created;
+		this.updated = updated;
+		//this.causal = causal;
+		this.status = status;
 	}
 
 	/**
@@ -178,19 +152,6 @@ public class Cumplimiento implements Serializable {
 		this.updated = updated;
 	}
 
-	/**
-	 * @return the causal
-	 */
-	public Causal getCausal() {
-		return causal;
-	}
-
-	/**
-	 * @param causal the causal to set
-	 */
-	public void setCausal(Causal causal) {
-		this.causal = causal;
-	}
 
 	/**
 	 * @return the id
@@ -206,31 +167,21 @@ public class Cumplimiento implements Serializable {
 		
 	}
 
+
 	/**
-	 * @param statusKey
-	 * @param statusName
-	 * @param statusDescription
-	 * @param effectiveDateForCompliance
-	 * @param complianceEvaluationDate
-	 * @param updated
-	 * @param created
+	 * @return the status
 	 */
-	public Cumplimiento(@NotEmpty @Size(min = 1, max = 10) String statusKey,
-			@NotEmpty @Size(min = 1, max = 10) String statusName,
-			@NotEmpty @Size(min = 1, max = 10) String statusDescription, Date effectiveDateForCompliance,
-			Date complianceEvaluationDate, Calendar updated, Calendar created) {
-		super();
-		this.statusKey = statusKey;
-		this.statusName = statusName;
-		this.statusDescription = statusDescription;
-		this.effectiveDateForCompliance = effectiveDateForCompliance;
-		this.complianceEvaluationDate = complianceEvaluationDate;
-		this.updated = updated;
-		this.created = created;
+	public Status getStatus() {
+		return status;
 	}
 
-	
-	
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -239,9 +190,7 @@ public class Cumplimiento implements Serializable {
 		result = prime * result + ((created == null) ? 0 : created.hashCode());
 		result = prime * result + ((effectiveDateForCompliance == null) ? 0 : effectiveDateForCompliance.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((statusDescription == null) ? 0 : statusDescription.hashCode());
-		result = prime * result + ((statusKey == null) ? 0 : statusKey.hashCode());
-		result = prime * result + ((statusName == null) ? 0 : statusName.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((updated == null) ? 0 : updated.hashCode());
 		return result;
 	}
@@ -275,20 +224,10 @@ public class Cumplimiento implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (statusDescription == null) {
-			if (other.statusDescription != null)
+		if (status == null) {
+			if (other.status != null)
 				return false;
-		} else if (!statusDescription.equals(other.statusDescription))
-			return false;
-		if (statusKey == null) {
-			if (other.statusKey != null)
-				return false;
-		} else if (!statusKey.equals(other.statusKey))
-			return false;
-		if (statusName == null) {
-			if (other.statusName != null)
-				return false;
-		} else if (!statusName.equals(other.statusName))
+		} else if (!status.equals(other.status))
 			return false;
 		if (updated == null) {
 			if (other.updated != null)
@@ -300,12 +239,15 @@ public class Cumplimiento implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Cumplimiento [id=" + id + ", statusKey=" + statusKey + ", statusName=" + statusName
-				+ ", statusDescription=" + statusDescription + ", effectiveDateForCompliance="
-				+ effectiveDateForCompliance + ", complianceEvaluationDate=" + complianceEvaluationDate + ", updated="
-				+ updated + ", created=" + created + "]";
+		return "Cumplimiento [id=" + id + ", effectiveDateForCompliance=" + effectiveDateForCompliance
+				+ ", complianceEvaluationDate=" + complianceEvaluationDate + ", created=" + created + ", updated="
+				+ updated + ", status=" + status + "]";
 	}
+
 	
+	
+	
+
 	
 
 }

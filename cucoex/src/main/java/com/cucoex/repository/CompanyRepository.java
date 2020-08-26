@@ -21,7 +21,7 @@ public interface CompanyRepository extends CrudRepository<Company, Long> {
 	
 	public Optional<Company> findByCompanyName(String companyname);
 	public Optional<Company> findByCompanyEmail(String companyemail);
-	public Optional<Company> findById(String username);
-
+	public Optional<Company> findById(String id);
+	//public Optional<ImpExpType> getAllImExpType();
 
 }

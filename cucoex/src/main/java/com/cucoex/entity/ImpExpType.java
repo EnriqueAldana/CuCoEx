@@ -45,12 +45,12 @@ public class ImpExpType implements Serializable {
 	@Column(nullable=false)
 	@NotEmpty
 	@Size(min=1, max=25)
-	private String ImpExpTypeName;
+	private String impExpTypeName;
 	
 	@Column(nullable=false)
 	@NotEmpty
 	@Size(min=1, max=254)
-	private String ImpExpTypeDescription;
+	private String impExpTypeDescription;
 	
 	@Column(nullable = false,columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -65,21 +65,31 @@ public class ImpExpType implements Serializable {
 	@JoinTable(name="impexptypes_causales"
 		,joinColumns=@JoinColumn(name="impexptype_id")
 		,inverseJoinColumns=@JoinColumn(name="causal_id"))
-	private Set<ImpExpType> impExpType;
+	private Set<Causal> causalList;
 	
 	
+	
+
+
 	/**
-	 * @return the impExpType
+	 * @return the causalList
 	 */
-	public Set<ImpExpType> getImpExpType() {
-		return impExpType;
+	public Set<Causal> getCausalList() {
+		return causalList;
 	}
 
 	/**
-	 * @param impExpType the impExpType to set
+	 * @param causalList the causalList to set
 	 */
-	public void setImpExpType(Set<ImpExpType> impExpType) {
-		this.impExpType = impExpType;
+	public void setCausalList(Set<Causal> causalList) {
+		this.causalList = causalList;
+	}
+
+	/**
+	 * @param updated the updated to set
+	 */
+	public void setUpdated(Calendar updated) {
+		this.updated = updated;
 	}
 
 	/**
@@ -92,8 +102,8 @@ public class ImpExpType implements Serializable {
 
 	public ImpExpType(String impExpTypeName, String impExpTypeDescription) {
 		super();
-		ImpExpTypeName = impExpTypeName;
-		ImpExpTypeDescription = impExpTypeDescription;
+		impExpTypeName = impExpTypeName;
+		impExpTypeDescription = impExpTypeDescription;
 	}
 
 	
@@ -117,28 +127,28 @@ public class ImpExpType implements Serializable {
 	 * @return the impExpTypeName
 	 */
 	public String getImpExpTypeName() {
-		return ImpExpTypeName;
+		return impExpTypeName;
 	}
 
 	/**
 	 * @param impExpTypeName the impExpTypeName to set
 	 */
 	public void setImpExpTypeName(String impExpTypeName) {
-		ImpExpTypeName = impExpTypeName;
+		impExpTypeName = impExpTypeName;
 	}
 
 	/**
 	 * @return the impExpTypeDescription
 	 */
 	public String getImpExpTypeDescription() {
-		return ImpExpTypeDescription;
+		return impExpTypeDescription;
 	}
 
 	/**
 	 * @param impExpTypeDescription the impExpTypeDescription to set
 	 */
 	public void setImpExpTypeDescription(String impExpTypeDescription) {
-		ImpExpTypeDescription = impExpTypeDescription;
+		impExpTypeDescription = impExpTypeDescription;
 	}
 
 	
@@ -178,8 +188,8 @@ public class ImpExpType implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((ImpExpTypeDescription == null) ? 0 : ImpExpTypeDescription.hashCode());
-		result = prime * result + ((ImpExpTypeName == null) ? 0 : ImpExpTypeName.hashCode());
+		result = prime * result + ((impExpTypeDescription == null) ? 0 : impExpTypeDescription.hashCode());
+		result = prime * result + ((impExpTypeName == null) ? 0 : impExpTypeName.hashCode());
 		return result;
 	}
 
@@ -192,23 +202,23 @@ public class ImpExpType implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		ImpExpType other = (ImpExpType) obj;
-		if (ImpExpTypeDescription == null) {
-			if (other.ImpExpTypeDescription != null)
+		if (impExpTypeDescription == null) {
+			if (other.impExpTypeDescription != null)
 				return false;
-		} else if (!ImpExpTypeDescription.equals(other.ImpExpTypeDescription))
+		} else if (!impExpTypeDescription.equals(other.impExpTypeDescription))
 			return false;
-		if (ImpExpTypeName == null) {
-			if (other.ImpExpTypeName != null)
+		if (impExpTypeName == null) {
+			if (other.impExpTypeName != null)
 				return false;
-		} else if (!ImpExpTypeName.equals(other.ImpExpTypeName))
+		} else if (!impExpTypeName.equals(other.impExpTypeName))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "ImpExpType [id=" + id + ", ImpExpTypeName=" + ImpExpTypeName + ", ImpExpTypeDescription="
-				+ ImpExpTypeDescription + "]";
+		return "ImpExpType [id=" + id + ", ImpExpTypeName=" + impExpTypeName + ", ImpExpTypeDescription="
+				+ impExpTypeDescription + "]";
 	}
 
 	

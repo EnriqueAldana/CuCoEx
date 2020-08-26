@@ -146,24 +146,37 @@ public class Company implements Serializable {
 			 */
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "companies_impexptypes", joinColumns = @JoinColumn(name = "company_id"), inverseJoinColumns = @JoinColumn(name = "impexptype_id"))
-	private Set<ImpExpType> impExpType;
+	private Set<ImpExpType> impExpTypeList;
 
 	
-	
-	
-	
+
+
+	/**
+	 * @return the impExpTypeList
+	 */
+	public Set<ImpExpType> getImpExpTypeList() {
+		return impExpTypeList;
+	}
+
+	/**
+	 * @param impExpTypeList the impExpTypeList to set
+	 */
+	public void setImpExpTypeList(Set<ImpExpType> impExpTypeList) {
+		this.impExpTypeList = impExpTypeList;
+	}
+
 	/**
 	 * @return the impExpType
 	 */
 	public Set<ImpExpType> getImpExpType() {
-		return impExpType;
+		return impExpTypeList;
 	}
 
 	/**
 	 * @param impExpType the impExpType to set
 	 */
 	public void setImpExpType(Set<ImpExpType> impExpType) {
-		this.impExpType = impExpType;
+		this.impExpTypeList = impExpType;
 	}
 
 	/**
@@ -192,7 +205,7 @@ public class Company implements Serializable {
 			@NotEmpty Long daysToClimbAlertsToAdministrator, @NotEmpty Long daysToDefault,
 			@NotEmpty @Size(min = 1, max = 254) String alertMessage
 
-			, Set<ImpExpType> impExpType) {
+			, Set<ImpExpType> impExpTypeList) {
 		super();
 		this.companyName = companyName;
 		this.companyId = companyId;
@@ -208,7 +221,7 @@ public class Company implements Serializable {
 		 * daysToClimbAlertsToSupervisor, daysToClimbAlertsToAdministrator,
 		 * daysToDefault, alertMessage);
 		 */
-		this.impExpType = impExpType;
+		this.impExpTypeList = impExpTypeList;
 	}
 
 	/*	*//**

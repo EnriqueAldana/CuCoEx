@@ -102,12 +102,13 @@ public class UserController {
 		model.addAttribute("userForm", user);
 		model.addAttribute("userList", userService.getAllUsers());
 		model.addAttribute("roles",roleRepository.findAll());
-		model.addAttribute("companies",companyService.getAllComanies());
+		model.addAttribute("companyList",companyService.getAllCompanies());
 		model.addAttribute(activeTab,"active");
 	}
 	
 	@GetMapping("/userForm")
 	public String userForm(Model model) {
+		System.out.println("Entrando en userForm");
 		baseAttributerForUserForm(model, new User(), TAB_LIST );
 		return "user-form/user-form";
 	}

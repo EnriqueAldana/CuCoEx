@@ -3,13 +3,16 @@
  */
 package com.cucoex.service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Calendar;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cucoex.entity.Company;
+import com.cucoex.entity.ImpExpType;
 import com.cucoex.entity.User;
 import com.cucoex.exception.CompanyException;
 import com.cucoex.exception.UsernameOrIdNotFound;
@@ -33,11 +36,20 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 
-
 	@Override
-	public Iterable<Company> getAllComanies() {
+	public Iterable<Company> getAllCompanies() {
 		
 		return repository.findAll();
+	}
+
+	@Override
+	public Iterable<ImpExpType> getAllImpExpTypeByCompanyId(Long id) throws CompanyException{
+		
+		Company companyFound = new Company();
+		
+		companyFound= getCompanyById(id);
+		
+		return companyFound.getImpExpTypeList();
 	}
 
 
@@ -57,7 +69,8 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public Company updateCompany(Company company) throws CompanyException {
 		
-	  
+			Calendar today = Calendar.getInstance(); 
+		
 		  Company companyUpdated = getCompanyById(company.getId());
 		  
 		  
@@ -65,6 +78,7 @@ public class CompanyServiceImpl implements CompanyService {
 		  { 
 			 System.out.println("Empresa por actualizar "  + companyUpdated.toString());
 			 mapCompany(company,companyUpdated);
+			 companyUpdated.setUpdated(today);
 		     
              companyUpdated = repository.save(companyUpdated);
 		     
@@ -78,17 +92,15 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public void deleteCompany(Long id) throws CompanyException {
+	public void deleteCompany(Long id) throws CompanyException, SQLIntegrityConstraintViolationException {
 		Optional<Company> companyFound = repository.findById(id);
 		if (companyFound.isPresent()) {
-			repository.deleteById(id);
 			
+			repository.deleteById(id);
 			
 		}else {
 			throw new CompanyException("La empresa " + id + "  no está disponible para eliminar");
 		}
-		
-
 		
 	}
 
@@ -96,7 +108,7 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public String toString() {
-		return "CompanyServiceImpl [getAllComanies()=" + getAllComanies() + "]";
+		return "CompanyServiceImpl [getAllComanies()=" +  "]";
 	}
 
 
@@ -107,7 +119,7 @@ public class CompanyServiceImpl implements CompanyService {
 	 */
 	protected void mapCompany(Company from,Company to) {
 		
-		Calendar today = Calendar.getInstance(); 
+		
 		
 		to.setAlertMessage(from.getAlertMessage());
 		to.setAreAlertsEnabled(from.getAreAlertsEnabled());
@@ -120,8 +132,14 @@ public class CompanyServiceImpl implements CompanyService {
 		to.setCompanyName(from.getCompanyName());
 		to.setCompanyPhone(from.getCompanyPhone());
 		to.setCompanyWeb(from.getCompanyWeb());
-		to.setUpdated(today);
+
 		
 
 	}
+
+
+	
+
+
+	
 }

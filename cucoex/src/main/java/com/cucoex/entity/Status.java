@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -40,16 +42,12 @@ public class Status implements Serializable {
 	@Column(nullable=false)
 	@NotEmpty
 	@Size(min=1, max=10)
-	private String statusNAme;
+	private String statusName;
 	
 	@Column(nullable=false)
 	@NotEmpty
 	@Size(min=1, max=10)
 	private String statusDescription;
-	
-
-	
-	
 
 	/**
 	 * @return the statusKey
@@ -73,7 +71,7 @@ public class Status implements Serializable {
 	 * @return the statusNAme
 	 */
 	public String getStatusNAme() {
-		return statusNAme;
+		return statusName;
 	}
 
 
@@ -82,7 +80,7 @@ public class Status implements Serializable {
 	 * @param statusNAme the statusNAme to set
 	 */
 	public void setStatusNAme(String statusNAme) {
-		this.statusNAme = statusNAme;
+		this.statusName = statusNAme;
 	}
 
 
@@ -133,7 +131,7 @@ public class Status implements Serializable {
 			@NotEmpty @Size(min = 1, max = 10) String statusDescription) {
 		super();
 		this.statusKey = statusKey;
-		this.statusNAme = statusNAme;
+		this.statusName = statusNAme;
 		this.statusDescription = statusDescription;
 	}
 
@@ -146,7 +144,7 @@ public class Status implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((statusDescription == null) ? 0 : statusDescription.hashCode());
 		result = prime * result + ((statusKey == null) ? 0 : statusKey.hashCode());
-		result = prime * result + ((statusNAme == null) ? 0 : statusNAme.hashCode());
+		result = prime * result + ((statusName == null) ? 0 : statusName.hashCode());
 		return result;
 	}
 
@@ -176,10 +174,10 @@ public class Status implements Serializable {
 				return false;
 		} else if (!statusKey.equals(other.statusKey))
 			return false;
-		if (statusNAme == null) {
-			if (other.statusNAme != null)
+		if (statusName == null) {
+			if (other.statusName != null)
 				return false;
-		} else if (!statusNAme.equals(other.statusNAme))
+		} else if (!statusName.equals(other.statusName))
 			return false;
 		return true;
 	}
@@ -188,7 +186,7 @@ public class Status implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Status [id=" + id + ", statusKey=" + statusKey + ", statusNAme=" + statusNAme + ", statusDescription="
+		return "Status [id=" + id + ", statusKey=" + statusKey + ", statusNAme=" + statusName + ", statusDescription="
 				+ statusDescription + "]";
 	}
 

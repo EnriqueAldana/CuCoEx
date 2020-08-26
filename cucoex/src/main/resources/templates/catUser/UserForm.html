@@ -58,7 +58,7 @@
 		<div class="col-lg-9">
 			<select multiple class="form-control" th:size="${signup}?1:3" th:field="${userForm.companies}" th:disabled="${disableFields}" placeholder="Seleccione una empresa"
 			required="required">
-				<option th:each="company :${companies}" th:value="${company.id}" th:text="${company.companyName}">
+				<option th:each="company :${companyList}" th:value="${company.id}" th:text="${company.companyName}">
 				</option>
 			</select>
 			<div class="alert-danger" th:if="${#fields.hasErrors('companies')}" th:errors="*{companies}">Name Error</div>
