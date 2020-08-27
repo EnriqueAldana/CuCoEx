@@ -6,8 +6,6 @@ package com.cucoex.entity;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,11 +13,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -28,7 +25,9 @@ import org.hibernate.annotations.GenericGenerator;
  *
  */
 @Entity
-public class Cumplimiento implements Serializable {
+@Table(name="compliance", 
+uniqueConstraints=@UniqueConstraint(columnNames={"companyId", "impexptypeId", "causalId"}))
+public class Compliance implements Serializable {
 
 	/**
 	 * 
@@ -41,7 +40,26 @@ public class Cumplimiento implements Serializable {
 	private Long id;
 	
 
+	@ManyToOne
+    @JoinColumn(name="companyId" ,nullable=false)
+	private Company company; 
 	
+	@ManyToOne
+    @JoinColumn(name="impexptypeId" ,nullable=false)
+	private ImpExpType impexptype; 
+	
+	@ManyToOne
+    @JoinColumn(name="causalId" ,nullable=false)
+	private Causal causal; 
+	
+	
+	// El estatus puede cambiar Por: La fecha actual es mayor a la fecha de vigencia para cumplimiento. El usuario determina que no se cumple.
+
+	@ManyToOne
+	@JoinColumn(name="statusId" ,nullable=false)
+	private Status status;
+		
+		
 	@Column(nullable = false)
 	private Date effectiveDateForCompliance;          // Fecha de Vigencia para cumplimiento
 	
@@ -58,43 +76,39 @@ public class Cumplimiento implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar updated;
 	
-	/*
-	 * @OneToOne
-	 * 
-	 * @JoinColumn(name="id") private Causal causal;
-	 */
 	
-	// El estatus puede cambiar Por: La fecha actual es mayor a la fecha de vigencia para cumplimiento. El usuario determina que no se cumple.
+	
+	
+	public void Compliance1() {
+		
+	}
 
-	
 
-	@ManyToOne
-    @JoinColumn(name="statusId")
-	private Status status;
-	
-	
-	
 
 	/**
-	 * @param id
+	 * @param company
+	 * @param impexptype
+	 * @param causal
 	 * @param effectiveDateForCompliance
 	 * @param complianceEvaluationDate
 	 * @param created
 	 * @param updated
-	 * @param causal
 	 * @param status
 	 */
-	public Cumplimiento(Long id, Date effectiveDateForCompliance, Date complianceEvaluationDate, Calendar created,
-			Calendar updated, Causal causal, Status status) {
+	public Compliance(Company company, ImpExpType impexptype, Causal causal, Date effectiveDateForCompliance,
+			Date complianceEvaluationDate, Calendar created, Calendar updated, Status status) {
 		super();
-		this.id = id;
+		this.company = company;
+		this.impexptype = impexptype;
+		this.causal = causal;
 		this.effectiveDateForCompliance = effectiveDateForCompliance;
 		this.complianceEvaluationDate = complianceEvaluationDate;
 		this.created = created;
 		this.updated = updated;
-		//this.causal = causal;
 		this.status = status;
 	}
+
+
 
 	/**
 	 * @return the effectiveDateForCompliance
@@ -160,12 +174,6 @@ public class Cumplimiento implements Serializable {
 		return id;
 	}
 
-	/**
-	 * 
-	 */
-	public Cumplimiento() {
-		
-	}
 
 
 	/**
@@ -203,7 +211,7 @@ public class Cumplimiento implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Cumplimiento other = (Cumplimiento) obj;
+		Compliance other = (Compliance) obj;
 		if (complianceEvaluationDate == null) {
 			if (other.complianceEvaluationDate != null)
 				return false;
@@ -242,6 +250,57 @@ public class Cumplimiento implements Serializable {
 		return "Cumplimiento [id=" + id + ", effectiveDateForCompliance=" + effectiveDateForCompliance
 				+ ", complianceEvaluationDate=" + complianceEvaluationDate + ", created=" + created + ", updated="
 				+ updated + ", status=" + status + "]";
+	}
+
+	/**
+	 * @return the company
+	 */
+	public Company getCompany() {
+		return company;
+	}
+
+	/**
+	 * @param company the company to set
+	 */
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
+	/**
+	 * @return the impexptype
+	 */
+	public ImpExpType getImpexptype() {
+		return impexptype;
+	}
+
+	/**
+	 * @param impexptype the impexptype to set
+	 */
+	public void setImpexptype(ImpExpType impexptype) {
+		this.impexptype = impexptype;
+	}
+
+	/**
+	 * @return the causal
+	 */
+	public Causal getCausal() {
+		return causal;
+	}
+
+	/**
+	 * @param causal the causal to set
+	 */
+	public void setCausal(Causal causal) {
+		this.causal = causal;
+	}
+
+
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	

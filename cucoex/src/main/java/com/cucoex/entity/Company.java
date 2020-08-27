@@ -149,6 +149,7 @@ public class Company implements Serializable {
 	private Set<ImpExpType> impExpTypeList;
 
 	
+	
 
 
 	/**
@@ -165,19 +166,7 @@ public class Company implements Serializable {
 		this.impExpTypeList = impExpTypeList;
 	}
 
-	/**
-	 * @return the impExpType
-	 */
-	public Set<ImpExpType> getImpExpType() {
-		return impExpTypeList;
-	}
 
-	/**
-	 * @param impExpType the impExpType to set
-	 */
-	public void setImpExpType(Set<ImpExpType> impExpType) {
-		this.impExpTypeList = impExpType;
-	}
 
 	/**
 	 * @param companyName

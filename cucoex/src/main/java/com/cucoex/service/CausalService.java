@@ -7,7 +7,7 @@ package com.cucoex.service;
 import java.util.Set;
 
 import com.cucoex.entity.Causal;
-import com.cucoex.entity.Cumplimiento;
+import com.cucoex.entity.Compliance;
 import com.cucoex.entity.Instruction;
 import com.cucoex.exception.CausalException;
 
@@ -30,7 +30,6 @@ public interface CausalService {
 	
 	public void deleteCausal(Long id) throws CausalException;
 	
-	public Set<Cumplimiento> getCumplimiento(Long id) throws CausalException;
 	
 
 }

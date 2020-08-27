@@ -17,6 +17,8 @@
 				      <tr>
 				        <th class="th-sm">Num.
 				        </th>
+				        <th class="th-sm">Acciones
+				        </th>
 				        <th class="th-sm">Nombre
 				        </th>
 				        <th class="th-sm">Dirección
@@ -31,12 +33,15 @@
 				        </th>
 				        <th class="th-sm">Habilitada
 				        </th>
+				        
 				      </tr>
     			</thead>
                   <tfoot>
                    <tr>
 				        <th class="th-sm">Num.
 				        </th>
+				        <th class="th-sm">Acciones
+				        </th>
 				        <th class="th-sm">Nombre
 				        </th>
 				        <th class="th-sm">Dirección
@@ -51,12 +56,17 @@
 				        </th>
 				        <th class="th-sm">Habilitada
 				        </th>
+				        
       				</tr>
                   </tfoot>
                       <tbody>
     
 					       <tr th:each="company: ${companyList}">
 								<td th:text="${company.id}"></td>
+								<td>
+														<a href="#" th:href="@{'/editCompany/'+ ${company.id}}"><i class="fas fa-edit"></i></a> 
+														| <a href="#" th:onclick="'javascript:confirmCompanyDelete(\''+ ${company.id} +'\');'"><i class="fas fa-user-times"></i></a>
+								</td>
 								<td th:text="${company.companyName}"></td>
 								<td th:text="${company.companyAddress}"></td>
 								<td th:text="${company.companyId}"></td>
@@ -64,16 +74,6 @@
 								<td th:text="${company.companyEmail}"></td>
 								<td th:text="${company.companyWeb}"></td>
 								<td th:text="${company.isEnabled}"></td>
-								<!-- <td>
-											<a href="#" th:href="@{'/editCompany/'+ ${company.id}}"><i class="fas fa-edit"></i></a>
-										<a href="#" th:onclick="'javascript:confirmEdit(\''+ ${company.id} +'\');'"><i class="fas fa-edit"></i></a>
-										
-										| 
-										
-										
-											<a href="#" th:onclick="'javascript:confirmDelete(\''+ ${company.id} +'\');'"><i class="fas fa-user-times"></i></a>
-										</span>
-								</td> -->
 							
 							</tr>
      
@@ -84,7 +84,25 @@
           </div>
 
 
-   
+ 		<div th:include="catCompany/confirm-delete-dialog.html" th:remove="tag"></div>
+
+		<div id="deleteError" th:if="${deleteErrorMessage}" class="alert alert-danger text-center" role="alert">
+		 	<span th:text="${deleteErrorMessage}"></span>
+		 </div>
+ 
+
+ 
+ <script type="text/javascript">
+function confirmCompanyDelete(id){
+	$('#deleteCompanyModal').modal('show');
+	$("#companyIdHiddenInput").val(id);
+}
+
+function deleteCompany(){
+	var id = $("#companyIdHiddenInput").val();
+    window.location = "deleteCompany/"+id;
+}
+</script>
       <!-- End of Main Content -->
  
 <!--  Inicializacion de la tabla -->
@@ -114,3 +132,4 @@ $(document).ready(function () {
 
 });
 </script>
+

@@ -80,12 +80,12 @@ public class CompanyController {
 					
 					baseAttributerForCompanyForm(model, new Company(), TAB_LIST );
 					
-					/* } catch (CustomeFieldValidationException cfve) {
-					result.rejectValue(cfve.getFieldName(), null, cfve.getMessage());
-					baseAttributerForCompanyForm(model, company, TAB_FORM );*/
+				} catch (CompanyException c) {
+					model.addAttribute("formErrorMessage",c.getMessage());
+					baseAttributerForCompanyForm(model, company, TAB_FORM );
 				}catch (Exception e) {
 					// Esta excepcion es la que viene de la BD y no es amigable
-					model.addAttribute("formErrorMessage",e.getMessage());
+					model.addAttribute("formErrorMessage",e.getCause().getMessage());
 					baseAttributerForCompanyForm(model, company, TAB_FORM );
 				}
 			}
@@ -99,23 +99,22 @@ public class CompanyController {
 			  if(result.hasErrors()) { 
 				  		baseAttributerForCompanyForm(model, company, TAB_FORM );
 			  			model.addAttribute("editMode","true");
-						/*
-						 * model.addAttribute("passwordForm",new ChangePasswordForm(user.getId()));
-						 */
+						
 			  }else { 
-				  /*
-				   * try {
+				  
+				    try {
 			  
-			 Date date = new Date(); Timestamp ts=new Timestamp(date.getTime()); Calendar
-			  hoy = Calendar.getInstance(); user.setCreated(hoy); user.setLastUpdated(hoy);
+				    	Calendar hoy = Calendar.getInstance();  
+				    	company.setUpdated(hoy);
+				    	companyService.updateCompany(company);	
+				    	baseAttributerForCompanyForm(model, new Company(), TAB_LIST );
+				   
+				    }catch (Exception e) {
+				    		model.addAttribute("formErrorMessage",e.getMessage());
 			  
-			  userService.updateUser(user); baseAttributerForUserForm(model, new User(),
-			  TAB_LIST ); } catch (Exception e) {
-			  model.addAttribute("formErrorMessage",e.getMessage());
-			  
-			  baseAttributerForUserForm(model, user, TAB_FORM );
-			  model.addAttribute("editMode","true"); model.addAttribute("passwordForm",new
-			  ChangePasswordForm(user.getId())); }*/ 
+				    		baseAttributerForCompanyForm(model, company, TAB_FORM );
+				  			model.addAttribute("editMode","true");
+				    		 } 
 				  
 			  }
 			 
@@ -128,14 +127,12 @@ public class CompanyController {
 		
 			System.out.println("Entrando a getEditCompanyForm con Id " + id);
 			Company companyToEdit;
-				companyToEdit = companyService.getCompanyById(id);
-				baseAttributerForCompanyForm(model, companyToEdit, TAB_FORM );
-			
+			companyToEdit = companyService.getCompanyById(id);
+			baseAttributerForCompanyForm(model, companyToEdit, TAB_FORM );
 			model.addAttribute("editMode","true");
-			/* model.addAttribute("passwordForm",new ChangePasswordForm(id)); */
 
-			//return "company";
-			return "catCompany/CompanyViewEditMode";
+			
+			return "catCompany/company-view";
 			
 	 		
 		}
@@ -158,12 +155,9 @@ public class CompanyController {
 			} 
 			catch (CompanyException uoin) {
 				System.out.println("Excepcion al borrar empresa " +id);
-				model.addAttribute("listErrorMessage",uoin.getMessage());
-			} catch (SQLIntegrityConstraintViolationException e) {
-				model.addAttribute("listErrorMessage","La empresa no puede eliminarse mientras contenga asignados Tipo de Imp/Ext, Causales, etc");
-				System.out.println(e.getStackTrace());
-			} catch (Exception ex) {
-				model.addAttribute("listErrorMessage","La empresa no puede eliminarse mientras contenga asignados Tipo de Imp/Ext, Causales, etc");
+				model.addAttribute("deleteErrorMessage",uoin.getMessage());
+			}catch (Exception ex) {
+				model.addAttribute("deleteErrorMessage","Ha habido un problema para eliminar la empresa.");
 				System.out.println(ex.getStackTrace());
 			}finally {
 

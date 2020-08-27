@@ -171,8 +171,7 @@ public class UserController {
 		}else {
 			try {
 
-				Date date = new Date();
-				Timestamp ts=new Timestamp(date.getTime());
+				
 				Calendar hoy = Calendar.getInstance();
 				user.setCreated(hoy);
 				user.setLastUpdated(hoy);

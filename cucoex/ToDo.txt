@@ -1,4 +1,7 @@
 
+Base de Datos
+OK		A)  Script inicial de datos
+
 Usuarios
 
 		Listar usuarios.
@@ -16,17 +19,18 @@ Usuarios
 		
 		
 
-		Base de Datos
-		A)  Script inicial de datos
+
 		
 		
-		Catalog de empresas
+Empresas
+
+		1.- Al eliminar una empresa con usuarios , el mensaje de la excepcion no se muestra por el redireccionamiento desde el controlador, poner un mensaje.
+		2.- 
 		
-		Hacer agregar empresa .........
-		
-		Eliminar empresa.......No anuncia errores al borrar....
-		
-		Acordeon empresa
-		
-		https://mdbootstrap.com/docs/jquery/javascript/accordion/
-		
+
+Cumplimiento
+
+		ToDO 
+	OK	1.- Hacer servicios 
+		2.- Hacer una prueba para insertar registros de una lista de causales de todos los tipos de una empresa
+			

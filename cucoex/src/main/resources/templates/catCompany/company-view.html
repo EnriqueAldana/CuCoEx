@@ -25,16 +25,15 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
   
-   <!-- Custom styles for this page -->
-  <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
   
 </head>
+
 <body id="page-top">
 
   <!-- Page Wrapper -->
   <div id="wrapper">
 
-	<div th:include="side_bar.html" th:remove="tag"></div>
+	<!-- <div th:include="side_bar.html" th:remove="tag"></div> -->
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -43,15 +42,18 @@
       <div id="content">
 
         <!-- Topbar -->
-       <div th:include="header_main.html" th:remove="tag"></div>
+     <!--   <div th:include="header_main.html" th:remove="tag"></div> -->
         <!-- End of Topbar -->
-    
-        <!-- Begin Page Content Company list -->
-  
-       <div th:include="catCompany/CompanyCrud.html" th:remove="tag"></div>
-       
 
-     <!-- End of Main Content -->
+<!--  <div th:include="header_main.html" th:remove="tag"></div> -->
+       <div class="card-header">
+						<h4>Edición de la información de la empresa</h4>
+		</div>
+       <div class="card-body">
+			 <div th:include="catCompany/CompanyForm.html" th:remove="tag"></div>
+		</div>
+
+      <!-- End of Main Content -->
 
       <!-- Footer -->
        <div th:include="footer.html" th:remove="tag"></div>
@@ -74,3 +76,56 @@
 </body>
 
 </html>
+
+
+<!-- 
+<body id="page-top">
+
+  Page Wrapper
+  <div id="wrapper">
+
+	
+
+     
+       
+       <div th:include="header_main.html" th:remove="tag"></div>
+       <div class="card-header">
+						<h4>Edición de la información de la empresa</h4>
+		</div>
+       <div class="card-body">
+			<div th:include="catCompany/CompanyForm.html" th:remove="tag"></div>
+		</div>
+         
+         
+       <div th:include="catUser/UserCrud.html" th:remove="tag"></div>
+       
+      End of Main Content
+
+      Footer
+       <div th:include="footer.html" th:remove="tag"></div>
+       
+      End of Footer
+
+    </div>
+    End of Content Wrapper
+
+  </div>
+  End of Page Wrapper
+
+  Scroll to Top Button
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+ 
+  
+  Your custom scripts (optional)
+  <script type="text/javascript">
+
+ 
+ </script>
+ 
+
+</body>
+
+</html> -->

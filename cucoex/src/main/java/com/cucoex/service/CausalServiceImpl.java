@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cucoex.entity.Causal;
-import com.cucoex.entity.Cumplimiento;
+import com.cucoex.entity.Compliance;
 import com.cucoex.entity.Instruction;
 import com.cucoex.exception.CausalException;
 import com.cucoex.repository.CausalRepository;
@@ -113,27 +113,13 @@ public class CausalServiceImpl implements CausalService {
 		to.setCausalOsCe(from.getCausalOsCe());
 		to.setCausalType(from.getCausalType());
 		to.setCreated(from.getCreated());
-		to.setCumplimientoList(from.getCumplimientoList());
 		to.setInstructionList(from.getInstructionList());
 		to.setUpdated(from.getUpdated());
 		
 
 	}
 
-	@Override
-	public Set<Cumplimiento> getCumplimiento(Long id) throws CausalException {
-		Causal causeUpdated = getCausalById(id);
-		Set<Cumplimiento> cumplimiento;  
-		  
-		 if(causeUpdated != null )
-		  { 
-			 cumplimiento = causeUpdated.getCumplimientoList();
-		  
-		  }else { 
-			  throw new CausalException("La causal " + id + "  no está disponible para obtener su cumplimientor"); }
-		  
-		  return cumplimiento;
-	}
+
 	
 	
 }

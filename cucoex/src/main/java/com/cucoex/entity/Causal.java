@@ -96,11 +96,7 @@ public class Causal implements Serializable {
 	private Set<Instruction> instructionList;
 	
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name="causales_cumplimientos"
-		,joinColumns=@JoinColumn(name="causal_id")
-		,inverseJoinColumns=@JoinColumn(name="cumplimiento_id"))
-	private Set<Cumplimiento> cumplimientoList;
+	
 	
 	
 	/**
@@ -325,22 +321,6 @@ public class Causal implements Serializable {
 	}
 
 
-	/**
-	 * @return the cumplimientoList
-	 */
-	public Set<Cumplimiento> getCumplimientoList() {
-		return cumplimientoList;
-	}
-
-
-	/**
-	 * @param cumplimientoList the cumplimientoList to set
-	 */
-	public void setCumplimientoList(Set<Cumplimiento> cumplimientoList) {
-		this.cumplimientoList = cumplimientoList;
-	}
-
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -353,7 +333,6 @@ public class Causal implements Serializable {
 		result = prime * result + ((causalOsCe == null) ? 0 : causalOsCe.hashCode());
 		result = prime * result + ((causalType == null) ? 0 : causalType.hashCode());
 		result = prime * result + ((created == null) ? 0 : created.hashCode());
-		result = prime * result + ((cumplimientoList == null) ? 0 : cumplimientoList.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((instructionList == null) ? 0 : instructionList.hashCode());
 		result = prime * result + ((updated == null) ? 0 : updated.hashCode());
@@ -410,11 +389,6 @@ public class Causal implements Serializable {
 				return false;
 		} else if (!created.equals(other.created))
 			return false;
-		if (cumplimientoList == null) {
-			if (other.cumplimientoList != null)
-				return false;
-		} else if (!cumplimientoList.equals(other.cumplimientoList))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -439,9 +413,11 @@ public class Causal implements Serializable {
 		return "Causal [id=" + id + ", causalDescription=" + causalDescription + ", causalFraction=" + causalFraction
 				+ ", causalOsCe=" + causalOsCe + ", causalClasification=" + causalClasification + ", causalExclusive="
 				+ causalExclusive + ", causalCumplimiento=" + causalCumplimiento + ", causalType=" + causalType
-				+ ", created=" + created + ", updated=" + updated + ", instructionList=" + instructionList
-				+ ", cumplimientoList=" + cumplimientoList + "]";
+				+ ", created=" + created + ", updated=" + updated + ", instructionList=" + instructionList + "]";
 	}
+
+
+	
 
 
 

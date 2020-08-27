@@ -6,6 +6,8 @@
       <tr>
         <th class="th-sm">#
         </th>
+         <th class="th-sm">Acciones
+        </th>
         <th class="th-sm">Nombre
         </th>
         <th class="th-sm">Apellido paterno
@@ -14,8 +16,7 @@
         </th>  
         <th class="th-sm">Correo Elec
         </th>
-        <th class="th-sm">Acciones
-        </th>
+       
       </tr>
       
       
@@ -24,22 +25,18 @@
      
       <tr th:each="user: ${userList}">
 			<td th:text="${user.id}"></td>
-			<td th:text="${user.username}"></td>
-			<td th:text="${user.firstName}"></td>
-			<td th:text="${user.lastName}"></td>	
-			<td th:text="${user.email}"></td>
 			<td>
 						<a href="#" th:href="@{'/editUser/'+ ${user.id}}"><i class="fas fa-edit"></i></a>
 					
 					| 
 					
-					
 						<a href="#" th:onclick="'javascript:confirmDelete(\''+ ${user.id} +'\');'"><i class="fas fa-user-times"></i></a>
 					</span>
 			</td>
-			
-			
-			
+			<td th:text="${user.username}"></td>
+			<td th:text="${user.firstName}"></td>
+			<td th:text="${user.lastName}"></td>	
+			<td th:text="${user.email}"></td>
 			
 		</tr>
 		

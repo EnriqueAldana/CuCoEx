@@ -2,77 +2,107 @@
 <form class="needs-validation" novalidate role="form" autocomplete="off"  th:object="${companyForm}" th:action="${signup}?@{/signup}:(${editMode} ?@{/editCompany} :@{/companyForm})" method="post">
 
 <input class="form-control" type=hidden th:field="${companyForm.id}"  th:if="${editMode}">
+<!--Accordion wrapper-->
+<div class="accordion md-accordion accordion-3 z-depth-1-half" id="accordionEx194" role="tablist"
+  aria-multiselectable="true">
 
+ 
 
+  <hr class="mb-0">
+
+  <!-- Accordion card -->
   <div class="card">
 
-	    <!-- Card header -->
-	    <div class="card-header" role="tab" id="heading4">
+    <!-- Card header -->
+    <div class="card-header" role="tab" id="heading4">
+      <a data-toggle="collapse" data-parent="#accordionEx194" href="#collapse4" aria-expanded="true"
+        aria-controls="collapse4">
+        <h4 class="mb-0 mt-3 blue-text">
+          Datos generales de la empresa. <i class="fas fa-angle-down rotate-icon fa-2x"></i>
+        </h4>
+      </a>
+    </div>
 
-	        <h4 class="mb-0 mt-3 blue-text">
-	          Datos generales de la empresa. 
-	        </h4>
-	      </div>
-	    <!-- Card body -->
-	   
-	      <div class="card-body pt-0">
-	         <div th:include="catCompany/company-data.html" th:remove="tag"></div>
-	      </div>
+    <!-- Card body -->
+    <div id="collapse4" class="collapse show" role="tabpanel" aria-labelledby="heading4"
+      data-parent="#accordionEx194">
+      <div class="card-body pt-0">
+         <div th:include="catCompany/company-data.html" th:remove="tag"></div>
+      </div>
+    </div>
   </div>
   <!-- Accordion card -->
 
   <!-- Accordion card -->
   <div class="card">
-    	<!-- Card header -->
-	    <div class="card-header" role="tab" id="heading4">
-	        <h4 class="mb-0 mt-3 blue-text">
-	          Tipos de Importación - Exportación 
-	        </h4>
-    	</div>
+
+    <!-- Card header -->
+    <div class="card-header" role="tab" id="heading5">
+      <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx194" href="#collapse5"
+        aria-expanded="false" aria-controls="collapse5">
+        <h4 class="mb-0 mt-3 blue-text">
+          Tipos de Importación - Exportación <i class="fas fa-angle-down rotate-icon fa-2x"></i>
+        </h4>
+      </a>
+    </div>
 
     <!-- Card body -->
-    
+    <div id="collapse5" class="collapse" role="tabpanel" aria-labelledby="heading5"
+      data-parent="#accordionEx194">
       <div class="card-body pt-0">
         <div th:include="catCompany/company-configuration-impexptype.html" th:remove="tag"></div>
       </div>
-    <
- </div>
+    </div>
+  </div>
+  <!-- Accordion card -->
 
   <!-- Accordion card -->
   <div class="card">
 
-	    <!-- Card header -->
-	    <div class="card-header" role="tab" id="heading6">
-	        <h4 class="mb-0 mt-3 blue-text">
-	          Alertas 
-	        </h4>    
-	    </div>
-	
-	    <!-- Card body -->
-	      <div class="card-body pt-0">
-	         <div th:include="catCompany/company-configuration-alerts.html" th:remove="tag"></div>
-	      </div>
-  
+    <!-- Card header -->
+    <div class="card-header" role="tab" id="heading6">
+      <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx194" href="#collapse6"
+        aria-expanded="false" aria-controls="collapse6">
+        <h4 class="mb-0 mt-3 blue-text">
+          Alertas <i class="fas fa-angle-down rotate-icon fa-2x"></i>
+        </h4>
+      </a>
+    </div>
+
+    <!-- Card body -->
+    <div id="collapse6" class="collapse" role="tabpanel" aria-labelledby="heading6"
+      data-parent="#accordionEx194">
+      <div class="card-body pt-0">
+         <div th:include="catCompany/company-configuration-alerts.html" th:remove="tag"></div>
+      </div>
+    </div>
   </div>
+  <!-- Accordion card -->
   
   <!-- Accordion card -->
   <div class="card">
 
     <!-- Card header -->
     <div class="card-header" role="tab" id="heading6">
+      <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx194" href="#collapse6"
+        aria-expanded="false" aria-controls="collapse6">
         <h4 class="mb-0 mt-3 blue-text">
-          Monitor de cumplimiento 
+          Monitor de cumplimiento <i class="fas fa-angle-down rotate-icon fa-2x"></i>
         </h4>
+      </a>
     </div>
 
     <!-- Card body -->
+    <div id="collapse6" class="collapse" role="tabpanel" aria-labelledby="heading6"
+      data-parent="#accordionEx194">
       <div class="card-body pt-0">
           <div th:include="catCompany/company-configuration-monitor.html" th:remove="tag"></div>
       </div>
-    
+    </div>
   </div>
   <!-- Accordion card -->
   
+</div>
 <!--/.Accordion wrapper-->
 	
    <hr class="mb-0">

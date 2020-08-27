@@ -55,7 +55,15 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public Company createCompany(Company company) throws CompanyException {
-		company = repository.save(company);
+		try {
+			company = repository.save(company);
+		}catch( org.hibernate.exception.ConstraintViolationException ex) {
+			throw new CompanyException("El RFC ya existe " );
+		}catch (org.springframework.dao.DataIntegrityViolationException ei) {
+			System.out.println("El RFC ya existe. " + ei.getMostSpecificCause().getMessage());
+			throw new CompanyException("El RFC ya existe. "  );
+		}
+		
 		return company;
 	}
 
@@ -92,11 +100,19 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public void deleteCompany(Long id) throws CompanyException, SQLIntegrityConstraintViolationException {
+	public void deleteCompany(Long id) throws CompanyException {
 		Optional<Company> companyFound = repository.findById(id);
 		if (companyFound.isPresent()) {
 			
-			repository.deleteById(id);
+			try {
+				repository.deleteById(id);
+			}catch( org.hibernate.exception.ConstraintViolationException ex) {
+				throw new CompanyException("La empresa no puede ser eliminada mientras tenga usuarios asignados " );
+			}catch (org.springframework.dao.DataIntegrityViolationException ei) {
+				System.out.println("La empresa no puede ser eliminada " + ei.getMostSpecificCause().getMessage());
+				throw new CompanyException("La empresa no puede ser eliminada mientras tenga usuarios asignados" );
+			}
+			
 			
 		}else {
 			throw new CompanyException("La empresa " + id + "  no está disponible para eliminar");
@@ -132,8 +148,13 @@ public class CompanyServiceImpl implements CompanyService {
 		to.setCompanyName(from.getCompanyName());
 		to.setCompanyPhone(from.getCompanyPhone());
 		to.setCompanyWeb(from.getCompanyWeb());
-
-		
+		to.setDaysToClimbAlertsToAdministrator(from.getDaysToClimbAlertsToAdministrator());
+		to.setDaysToClimbAlertsToSupervisor(from.getDaysToClimbAlertsToSupervisor());
+		to.setDaysToDefault(from.getDaysToDefault());
+		to.setFrequencyToRunMonitor(from.getFrequencyToRunMonitor());
+		to.setImpExpTypeList(from.getImpExpTypeList());
+		to.setIsEnabled(from.getIsEnabled());
+	
 
 	}
 
