@@ -32,5 +32,8 @@ Cumplimiento
 
 		ToDO 
 	OK	1.- Hacer servicios 
-		2.- Hacer una prueba para insertar registros de una lista de causales de todos los tipos de una empresa
+	OK	2.- Hacer una prueba para insertar registros de una lista de causales de todos los tipos de una empresa
 			
+			
+Causales
+		1.- Hacer la pantalla de causales para que el usuario la administre y cambie el estatus cuando la manipule.

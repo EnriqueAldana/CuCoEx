@@ -198,42 +198,6 @@ INSERT INTO `causal`
   `causal_type`) VALUES ('1','Verificar las obligaciones y que éstas estén cumplidas.','No hubieren presentado las declaraciones de los impuestos federales o cumplido con alguna otra obligación fiscal.','G','II','SC','1');
 
 
-
--- Cumplimiento aqui se fija la relacion de Mucho Cumplimientos a Un Estatus
-INSERT INTO `cucoex`.`cumplimiento`
-(
-`compliance_evaluation_date`,
-`effective_date_for_compliance`,
-`status_id`)
-VALUES
-(
-'2020-08-21 15:42:09',
-'2020-09-21 15:42:09',
-'1');
-
-INSERT INTO `cucoex`.`cumplimiento`
-(
-`compliance_evaluation_date`,
-`effective_date_for_compliance`,
-`status_id`)
-VALUES
-(
-'2020-08-15 15:42:09',
-'2020-08-30 15:42:09',
-'2');
-
-INSERT INTO `cucoex`.`cumplimiento`
-(
-`compliance_evaluation_date`,
-`effective_date_for_compliance`,
-`status_id`)
-VALUES
-(
-'2020-08-01 15:42:09',
-'2020-09-20 15:42:09',
-'3');
-
-
 -- Relacion Causal cumplimiento
 
 INSERT INTO `cucoex`.`causales_cumplimientos`

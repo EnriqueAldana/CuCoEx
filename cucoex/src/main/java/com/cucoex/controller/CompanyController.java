@@ -6,7 +6,9 @@ package com.cucoex.controller;
 import java.sql.SQLIntegrityConstraintViolationException;
 import com.cucoex.exception.CustomeFieldValidationException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.validation.Valid;
@@ -23,11 +25,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.cucoex.dto.ChangePasswordForm;
 import com.cucoex.entity.Company;
+import com.cucoex.entity.Compliance;
 import com.cucoex.entity.User;
 import com.cucoex.exception.CompanyException;
+import com.cucoex.exception.ComplianceException;
 import com.cucoex.exception.CustomeFieldValidationException;
 import com.cucoex.exception.UsernameOrIdNotFound;
 import com.cucoex.service.CompanyService;
+import com.cucoex.service.ComplianceService;
 import com.cucoex.service.ImpExpTypeService;
 
 
@@ -48,6 +53,8 @@ public class CompanyController {
 	@Autowired
 	ImpExpTypeService impExpTypeService;
 	
+	@Autowired
+	ComplianceService complianceService;
 	
 	/**
 	 * 
@@ -107,6 +114,21 @@ public class CompanyController {
 				    	Calendar hoy = Calendar.getInstance();  
 				    	company.setUpdated(hoy);
 				    	companyService.updateCompany(company);	
+				    	// Actualizar los registros de cumplimiento
+				    	
+						Collection<Compliance> complianListAdded= new ArrayList<Compliance>();
+						Collection<Long> complianListRemoved= new ArrayList<Long>();
+						try {
+							complianListAdded= (Collection<Compliance>) complianceService.createAllComplianceByCompanyId(company.getId());
+							complianListRemoved = (Collection<Long>) complianceService.removeAllUseLessComplianceByCompanyId(company.getId());
+							System.out.println("Registros insertados " + complianListAdded.size());
+							System.out.println("Registros eliminado " + complianListRemoved.size());
+						} catch (ComplianceException e) {
+							
+							e.printStackTrace();
+						}
+						
+						System.out.println("Registros insertados " + complianListAdded.size());
 				    	baseAttributerForCompanyForm(model, new Company(), TAB_LIST );
 				   
 				    }catch (Exception e) {

@@ -3,15 +3,27 @@
  */
 package com.cucoex.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cucoex.entity.Causal;
+import com.cucoex.entity.Company;
 import com.cucoex.entity.Compliance;
+import com.cucoex.entity.ImpExpType;
+import com.cucoex.entity.Status;
+import com.cucoex.exception.CompanyException;
 import com.cucoex.exception.ComplianceException;
 import com.cucoex.repository.ComplianceRepository;
+import com.cucoex.repository.StatusRepository;
+import com.cucoex.util.Utileria;
+
 
 /**
  * @author enrique
@@ -28,6 +40,12 @@ public class ComplianceServiceImp implements ComplianceService {
 	ComplianceService complianceService;
 	
 
+	@Autowired
+	CompanyService companyService;
+	
+	
+	@Autowired
+	StatusRepository statusRepository;
 	/**
 	 * 
 	 */
@@ -41,7 +59,186 @@ public class ComplianceServiceImp implements ComplianceService {
 		compliance = complianceRepository.save(compliance);
 		return compliance;
 	}
+	
+	/*
+	 * 
+	 * Creamos los registros en la tabla de COmpliance en funcion de la estructura de la empresa
+	 * Si ya estan solo se actualiza el campo de updated
+	 * 
+	 * 
+	 */
+	public Iterable<Compliance> createAllComplianceByCompanyId(Long id) throws ComplianceException{
+		
+		Calendar hoy = Calendar.getInstance();
+		Date effectiveDateForCompliance = new Date();
+		effectiveDateForCompliance = Utileria.sumarDias(effectiveDateForCompliance, 30);
+		Date complianceEvaluationDate = new Date();
+		complianceEvaluationDate = Utileria.sumarDias(complianceEvaluationDate, 0);
+		Calendar created = hoy;
+		Calendar updated= hoy;
+		Status status = new Status();
+		status = statusRepository.findByStatusKey("INCUM");
+		Compliance compliancefound = null;
+		Collection<Compliance> complianList= new ArrayList<Compliance>();
+		
+		try {
+				Company empresa = companyService.getCompanyById(id);
+				
 
+				for(ImpExpType  impExpType :  empresa.getImpExpTypeList()) {
+					  //System.out.println("ImpExpType : " + impExpType.toString());
+					
+					for (Causal causal: impExpType.getCausalList()) {
+								
+						//System.out.println("Causal : " + causal.toString());
+						
+						// Determinar si es insercion o actualizacion
+						 Iterable<Compliance> complianceUpdated = getAllComplianceByCompanyAndImpExtTypeAndCausal(empresa, impExpType, causal);
+						
+						// Buscar el registro en la lista
+						 compliancefound = null;
+						for(Compliance listaReg: complianceUpdated ) {
+							compliancefound = null;   // Asumimos que el registro sera nuevo
+							if(listaReg.getCompany().getId() == empresa.getId()){
+								if(listaReg.getImpexptype().getId() == impExpType.getId()) {
+									if(listaReg.getCausal().getId() == causal.getId()) {
+										compliancefound = listaReg;
+									}
+								}
+							}
+							
+						}	
+							
+						if (compliancefound == null) {   // SI el registro por insertar no esta en la lista
+							
+							try {
+								
+								Compliance compliance = new Compliance(empresa, impExpType, causal, effectiveDateForCompliance , complianceEvaluationDate, created, updated, status);
+								complianList.add(complianceService.createCompliance(compliance));
+								
+							}catch (org.springframework.dao.DataIntegrityViolationException exp) {
+								System.out.println("El registro para la empresa  " + empresa.getId() + " con ImpExpType " + impExpType.getId() + " y causal  " + causal.getId() + " Ya existe");
+								exp.printStackTrace();
+							}
+						} else {
+							System.out.println("Actualizacion de registro en la tabla de cumplimiento");
+							// Mandar actualizar por ComplianceFound
+							System.out.println("Registro por actualizar" + compliancefound.toString());
+							
+							System.out.println("Registro actualizado" + updateCompliance(compliancefound));
+							
+						}
+							
+					}
+					
+				}  // fin iterador de ImpExtType
+				
+				
+				
+		
+
+		} catch (CompanyException e) {
+			e.printStackTrace();
+			throw new ComplianceException("Ha habido un error en la obtencion de la empresa");
+			
+		} catch (ComplianceException e) {
+			e.printStackTrace();
+			throw new ComplianceException("Ha habido un error en la insercion de registros de cumplimiento");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ComplianceException("Ha habido un error en la insercion de registros de cumplimiento");
+		}
+		
+		
+		return complianList;
+		
+		
+	}
+
+	/*
+	 * 
+	 * Removemos los registros que esten en la tabla de Compliance que ya no esten definidos en la 
+	 * estructura de la empresa
+	 * 
+	 * 
+	 */
+	public Collection<Long> removeAllUseLessComplianceByCompanyId(Long id) throws ComplianceException{
+		
+		Long compliancefound = 0L;
+		Collection<Long> foundedRecords = new ArrayList<Long>();
+		Collection<Long> deletedRecords = new ArrayList<Long>();
+		try {
+			Company empresa = companyService.getCompanyById(id);
+			
+			
+			/*  SUSTRACCION DE LISTAS
+			 * List<Integer> list1 = Arrays.asList(1, 2, 3); List<Integer> list2 =
+			 * Arrays.asList(1, 2, 4, 5); List<Integer> diff = list1.stream() .filter(e ->
+			 * !list2.contains(e)) .collect (Collectors.toList()); // (3)
+			 */			
+			
+			
+			// Traer todos los registros de cumplimiento de la empresa
+			
+			Iterable<Compliance> companyList = complianceRepository.findByCompany(empresa);
+			
+			
+			for(ImpExpType  impExpType :  empresa.getImpExpTypeList()) {
+				  System.out.println("ImpExpType : " + impExpType.toString());
+				
+				for (Causal causal: impExpType.getCausalList()) {
+							
+					System.out.println("Causal : " + causal.toString());
+						
+					// Buscar el registro en la lista
+					compliancefound = 0L;
+					for(Compliance companyListRecords: companyList ) {
+						System.out.println("Cumplimiento de la lista completa para la empresa " + empresa.getId());
+						System.out.println(companyListRecords.toString());
+						System.out.println("Indices de la estructura " + empresa.getId() + " " +impExpType.getId() + " " + causal.getId());
+						if(companyListRecords.getCompany().getId() == empresa.getId()){
+							if(companyListRecords.getImpexptype().getId() == impExpType.getId()) {
+								if(companyListRecords.getCausal().getId() == causal.getId()) {
+									// SI el registro de la actual estructura de la empresa esta en la lista de registros se debe dejar y por lo tanto tomamos su id
+									foundedRecords.add(companyListRecords.getId());
+								}
+							}
+						}
+						
+						
+					}  // fin companyListRecords
+					
+				}
+				
+			}  // fin iterador de ImpExtType
+			
+			// Eliminar los que no se encontraron
+			for(Compliance companyListRecords: companyList ) {
+				
+				if ( !foundedRecords.contains(companyListRecords.getId())) {
+					deleteCompliance(companyListRecords.getId());
+					deletedRecords.add(companyListRecords.getId());
+					// System.out.println("Registro de cumplimiento eliminado " + companyListRecords.getId());
+				}
+			}
+		
+			
+	
+
+	} catch (CompanyException e) {
+		e.printStackTrace();
+		throw new ComplianceException("Ha habido un error en la obtencion de la empresa");
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+		throw new ComplianceException("Ha habido un error en la eliminacion de registros de cumplimiento");
+	}
+
+		
+		
+		return deletedRecords;
+		
+	}
 	@Override
 	public Compliance getComplianceById(Long id) throws ComplianceException {
 		
@@ -51,43 +248,45 @@ public class ComplianceServiceImp implements ComplianceService {
 
 	 							
 	@Override
-	public Optional<Compliance> getComplianceByCompanyIdAndImpExtTypeIdAndCausalId(Long idCompany,Long idImpExpType,Long idCausal) throws ComplianceException {
+	public Iterable<Compliance> getAllComplianceByCompanyAndImpExtTypeAndCausal(Company company ,ImpExpType impExpType,Causal  causal) throws ComplianceException {
 		
-		return Optional.ofNullable(complianceRepository.findByCompanyAndImpexptypeAndCausal(idCompany, idImpExpType, idCausal).orElseThrow(() -> new ComplianceException("El Id del cumplimiento no existe.")));
+		return complianceRepository.findByCompanyAndImpexptypeAndCausal(company, impExpType,causal);
 	}
 
 	@Override 					
-	public Iterable<Compliance> getComplianceByCompanyIdAndImpExtTypeId(Long idCompany,Long idImpExpType) throws ComplianceException {
+	public Iterable<Compliance> getComplianceByCompanyAndImpExtType(Company company ,ImpExpType impExpType) throws ComplianceException {
 		
-		return complianceRepository.findByCompanyAndImpexptype(idCompany, idImpExpType);
+		return complianceRepository.findByCompanyAndImpexptype(company, impExpType);
 	}
 
 	@Override
-	public Iterable<Compliance> getComplianceByCompanyId(Long id) throws ComplianceException {
+	public Iterable<Compliance> getComplianceByCompany(Company company) throws ComplianceException {
 		
-		return complianceRepository.findByCompany(id);
+		return complianceRepository.findByCompany(company);
 	}
 
 	@Override
 	public Compliance updateCompliance(Compliance compliance) throws ComplianceException {
 		
-		  Calendar hoy = Calendar.getInstance(); 
+		
+		  Calendar hoy = Calendar.getInstance();
 		  
-		  Compliance complianceUpdated = getComplianceById(compliance.getId());
-
-		 if(complianceUpdated != null )
-		  { 
-			 System.out.println("Cumplimiento por actualizar "  + complianceUpdated.toString());
-			 mapCompliance(compliance,complianceUpdated);
-			 complianceUpdated.setUpdated(hoy);   
-			 complianceUpdated = complianceRepository.save(complianceUpdated);
-		     
-		     System.out.println("Cumplimiento actualizada " + complianceUpdated.toString());
 		  
-		  }else { 
-			  throw new ComplianceException("Id de cumplimiento no disponible para actualizar"); }
+		  Optional <Compliance> complianceUpdated = complianceRepository.findById(compliance.getId()); 
+		  if(complianceUpdated.isPresent() ) {
+			  //System.out.println("Cumplimiento por actualizar " +
+			  //complianceUpdated.toString());
+			  mapCompliance(compliance,complianceUpdated.get());
+			  complianceUpdated.get().setUpdated(hoy); // complianceUpdated = compliance =
+			  complianceRepository.save(complianceUpdated.get());
+			 // System.out.println("Cumplimiento actualizada " +
+			  //complianceUpdated.toString());
 		  
-		  return complianceUpdated;
+		  }else { throw new
+		  ComplianceException("El cumplimiento no disponible para actualizar"); }
+		 
+		  
+		  return compliance;
 
 	}
 
@@ -97,6 +296,7 @@ public class ComplianceServiceImp implements ComplianceService {
 						Compliance complianceFound = getComplianceById(id);
 		
 						if (complianceFound  != null) {
+							// System.out.println("Borrando el cumplimiento " + id);
 							complianceRepository.deleteById(id);
 							
 							
@@ -117,6 +317,9 @@ public class ComplianceServiceImp implements ComplianceService {
 		to.setStatus(from.getStatus());
 		to.setUpdated(from.getUpdated());
 	}
+
+
+
 
 	
 

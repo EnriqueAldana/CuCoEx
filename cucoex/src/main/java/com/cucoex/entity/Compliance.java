@@ -79,7 +79,7 @@ public class Compliance implements Serializable {
 	
 	
 	
-	public void Compliance1() {
+	public Compliance() {
 		
 	}
 
@@ -107,7 +107,6 @@ public class Compliance implements Serializable {
 		this.updated = updated;
 		this.status = status;
 	}
-
 
 
 	/**
