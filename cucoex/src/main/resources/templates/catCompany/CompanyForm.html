@@ -1,3 +1,6 @@
+
+<section class="form-elegant scrollbar-light-blue">
+
 <!-- <form class="border border-light p-5" th:object="${companyForm}" th:action="${signup}?@{/signup}:(${editMode} ?@{/editUser} :@{/companyForm})" method="post"> -->
 <form class="needs-validation" novalidate role="form" autocomplete="off"  th:object="${companyForm}" th:action="${signup}?@{/signup}:(${editMode} ?@{/editCompany} :@{/companyForm})" method="post">
 
@@ -35,7 +38,7 @@
       <div class="card-body pt-0">
         <div th:include="catCompany/company-configuration-impexptype.html" th:remove="tag"></div>
       </div>
-    <
+  
  </div>
 
   <!-- Accordion card -->
@@ -71,6 +74,9 @@
       </div>
     
   </div>
+  
+  </section>
+  
   <!-- Accordion card -->
   
 <!--/.Accordion wrapper-->
@@ -89,6 +95,9 @@
 	<div class="alert alert-danger text-center" th:if="${formErrorMessage}" th:text="${formErrorMessage}">Error MEssage</div>
 	<div class="alert alert-success text-center d-none" id="formSuccess" th:if="${editMode}" >Success MEssage</div>
 </form>
+
+
+
 <!--  Con esta funcion implementamos la validacion de los campos por bootstarp -->
  <script type="text/javascript">
 (function() {

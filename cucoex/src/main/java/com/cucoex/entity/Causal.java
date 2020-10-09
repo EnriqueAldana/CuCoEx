@@ -16,8 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
@@ -25,13 +24,16 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
 
+
 /**
  * @author enrique
  *
  */
 @Entity
 public class Causal implements Serializable {
-
+	
+	
+	
 	/**
 	 * 
 	 */
@@ -93,6 +95,7 @@ public class Causal implements Serializable {
 	@JoinTable(name="causales_instructions"
 		,joinColumns=@JoinColumn(name="causal_id")
 		,inverseJoinColumns=@JoinColumn(name="instruction_id"))
+	@OrderBy(value = "id ASC")
 	private Set<Instruction> instructionList;
 	
 

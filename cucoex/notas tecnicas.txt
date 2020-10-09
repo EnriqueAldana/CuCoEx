@@ -81,4 +81,34 @@ ADMIN															USER
 2.Editar Cualquier Usuario								Editar Propia informacion
 3.Eliminar Cualquier Usuario	
 4.Cambiar Password Cualquier Usuario					Cambiar su Propio Password (ingresando el actual)
+
+
+AJAX
+
+https://cybmeta.com/ajax-con-json-y-php-ejemplo-paso-a-paso
+
+https://webdesign.tutsplus.com/es/tutorials/building-a-bootstrap-contact-form-using-php-and-ajax--cms-23068
+
+
+
+REST
+https://spring.io/guides/tutorials/rest/
+  
+  
+  Modal
+  
+  https://mdbootstrap.com/docs/standard/components/modal/
+  
+  DataPicker
+  
+  https://gijgo.com/datepicker/example/material-design
+  
+  
+  id="proximaVerificacion"
+  id="vigencia"
+  
+  
+  Spring Security
+  
+  https://spring.io/guides/gs/securing-web/
   

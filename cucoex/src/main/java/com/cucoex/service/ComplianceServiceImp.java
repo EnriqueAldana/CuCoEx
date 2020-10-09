@@ -3,6 +3,7 @@
  */
 package com.cucoex.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -70,10 +71,10 @@ public class ComplianceServiceImp implements ComplianceService {
 	public Iterable<Compliance> createAllComplianceByCompanyId(Long id) throws ComplianceException{
 		
 		Calendar hoy = Calendar.getInstance();
-		Date effectiveDateForCompliance = new Date();
-		effectiveDateForCompliance = Utileria.sumarDias(effectiveDateForCompliance, 30);
-		Date complianceEvaluationDate = new Date();
-		complianceEvaluationDate = Utileria.sumarDias(complianceEvaluationDate, 0);
+		LocalDate effectiveDateForCompliance = LocalDate.now();
+		effectiveDateForCompliance = Utileria.sumarDias(effectiveDateForCompliance, 30L);
+		LocalDate complianceEvaluationDate = LocalDate.now();
+		complianceEvaluationDate = Utileria.sumarDias(complianceEvaluationDate, 0L);
 		Calendar created = hoy;
 		Calendar updated= hoy;
 		Status status = new Status();
@@ -278,7 +279,7 @@ public class ComplianceServiceImp implements ComplianceService {
 			  //complianceUpdated.toString());
 			  mapCompliance(compliance,complianceUpdated.get());
 			  complianceUpdated.get().setUpdated(hoy); // complianceUpdated = compliance =
-			  complianceRepository.save(complianceUpdated.get());
+			  compliance= complianceRepository.save(complianceUpdated.get());
 			 // System.out.println("Cumplimiento actualizada " +
 			  //complianceUpdated.toString());
 		  
@@ -308,14 +309,32 @@ public class ComplianceServiceImp implements ComplianceService {
 	
 	protected void mapCompliance(Compliance from,Compliance to) {
 		to.setId(from.getId());
-		to.setCausal(from.getCausal());
-		to.setCompany(from.getCompany());
-		to.setComplianceEvaluationDate(from.getComplianceEvaluationDate());
-		to.setCreated(from.getCreated());
-		to.setEffectiveDateForCompliance(from.getEffectiveDateForCompliance());
-		to.setImpexptype(from.getImpexptype());
-		to.setStatus(from.getStatus());
-		to.setUpdated(from.getUpdated());
+		if(null != from.getCausal()) {
+			to.setCausal(from.getCausal());
+		}
+		if(null != from.getCompany()){
+			to.setCompany(from.getCompany());
+		}
+		if (null != from.getImpexptype()) {
+			to.setImpexptype(from.getImpexptype());
+		}
+		if (null != from.getComplianceEvaluationDate()) {
+			to.setComplianceEvaluationDate(from.getComplianceEvaluationDate());
+		}
+		if ( null != from.getCreated()) {
+			to.setCreated(from.getCreated());
+		}
+		if (null != from.getEffectiveDateForCompliance()) {
+			to.setEffectiveDateForCompliance(from.getEffectiveDateForCompliance());
+		}
+		if ( null != from.getStatus()) {
+			to.setStatus(from.getStatus());
+		}
+		if ( null != from.getUpdated()) {
+			to.setUpdated(from.getUpdated());
+		}
+		
+		
 	}
 
 

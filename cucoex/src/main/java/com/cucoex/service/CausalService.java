@@ -30,6 +30,8 @@ public interface CausalService {
 	
 	public void deleteCausal(Long id) throws CausalException;
 	
+	public Iterable<Causal> getAllCausalByCompanyId(Long id) throws CausalException;
+	
 	
 
 }

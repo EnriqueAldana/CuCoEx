@@ -36,6 +36,16 @@ public class UserServiceImpl implements UserService {
 		return repository.findAll();
 	}
 	
+	public Set<Company> getAllCompaniesByUser(User user) throws UsernameOrIdNotFound {
+		
+		User userfounded= new User();
+
+			userfounded = getUserById(user.getId());
+	
+		
+		return userfounded.getCompanies();
+	}
+	
 	private boolean checkUsernameAvailable(User user) throws Exception {
 		// Busca dispnible para nombre de usuario
 		Optional<User> userFound = repository.findByUsername(user.getUsername());

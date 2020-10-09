@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Spring Boot Thymeleaf Application - Bootstrap Input Date</title>
+
+
+	
+     
+     
+    
+     <!-- Font Awesome -->
+ 	<link th:rel="stylesheet" th:href="@{webjars/font-awesome/5.11.2/css/all.css} "/>
+  <!-- Bootstrap core CSS -->
+      <!-- Bootstrap core CSS -->
+  
+ 
+  <link th:rel="stylesheet" th:href="@{webjars/bootstrap/css/bootstrap.css} "/>
+  
+  
+   <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    
+    
+     <link href="static/css/sb-admin-2.min.css" rel="stylesheet" type="text/css" th:href="@{/css/sb-admin-2.min.css}" >
+     
+     <link th:rel="stylesheet" th:href="@{webjars/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.css} "/>
+     <link th:rel="stylesheet" th:href="@{webjars/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.standalone.css} "/>
+     
+     
+     
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">Thymeleaf - Bootstrap Input Date</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <form method="post" th:object="${complianceForm}">
+        <div class="form-group row">
+            <div class="col-md-4 mt-5">
+                <label for="birthdate">Date of birth</label>
+                <div class="input-group date">
+                    <input type="text" class="form-control" id="birthdate" autocomplete="off" th:field="*{effectiveDateForCompliance}"/>
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Submit form</button>
+    </form>
+
+</div>
+
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.js}"></script>
+
+<script>
+    $('.input-group.date').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        format: "mm/dd/yyyy"
+    });
+</script>
+
+</body>
+</html>

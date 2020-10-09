@@ -11,23 +11,32 @@
     
   <title>CuCoEx - Cumplimiento al comercio exterior</title>
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
-  <!-- Bootstrap core CSS -->
-      <!-- Bootstrap core CSS -->
-  
-    
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">  
   <link href="/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}">
   <!-- Material Design Bootstrap -->
   <link href="/css/mdb.min.css" rel="stylesheet" th:href="@{/css/mdb.min.css}">
   <!-- Your custom styles (optional) -->
-  <link href="/css/style.min.css" rel="stylesheet" th:href="@{/css/style.min.css}">
-  
+  <link href="/css/style.min.css" rel="stylesheet" th:href="@{/css/style.min.css}"> 
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
   
-   <!-- Custom styles for this page -->
-  <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+   <!-- Custom fonts for this template-->
+   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+ 
+   <link href="css/addons/datatables2.min.css" rel="stylesheet">
+	
+	<link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
   
+  <!-- Scrool de listas y formas -->
+  <link href="css/style.css" rel="stylesheet">
+ 
+
+
 </head>
 <body id="page-top">
 
@@ -70,6 +79,20 @@
   </a>
 
   <div th:include="footer_main.html" th:remove="tag"></div>
+  
+ <script type="text/javascript">
+ $(document).ready(function () {
+	 $('#dtCompany').DataTable({
+	 "scrollX": true,
+	 "scrollY": 350,
+	 });
+	 $('.dataTables_length').addClass('bs-select');
+	 }); 
+ 
+
+ 
+ </script>
+ 
 
 </body>
 

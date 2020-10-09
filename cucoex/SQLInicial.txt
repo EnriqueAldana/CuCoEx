@@ -186,7 +186,7 @@ INSERT INTO `causal`
   `causal_exclusive` ,
   `causal_fraction` ,
   `causal_os_ce` ,
-  `causal_type`) VALUES ('2','Verificar que se encuentre registrado en el SAT el correo para efectos del buzón tributario.','No tengan registrado el correo electrónico para efectos del Buzón Tributario.','G','III','SC','1');
+  `causal_type`) VALUES ('2','Verificar que se encuentre registrado en el SAT el correo para efectos del buzón tributario.','No tengan registrado el correo electrónico para efectos del Buzón Tributario.','G','III','SC','2');
 
 INSERT INTO `causal`
   (`causal_clasification`,
@@ -195,7 +195,7 @@ INSERT INTO `causal`
   `causal_exclusive` ,
   `causal_fraction` ,
   `causal_os_ce` ,
-  `causal_type`) VALUES ('1','Verificar las obligaciones y que éstas estén cumplidas.','No hubieren presentado las declaraciones de los impuestos federales o cumplido con alguna otra obligación fiscal.','G','II','SC','1');
+  `causal_type`) VALUES ('1','Verificar las obligaciones y que éstas estén cumplidas.','No hubieren presentado las declaraciones de los impuestos federales o cumplido con alguna otra obligación fiscal.','G','II','SC','3');
 
 
 -- Relacion Causal cumplimiento

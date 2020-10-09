@@ -1,9 +1,4 @@
-<!--    <div id="deleteError" th:if="${listErrorMessage}" class="alert alert-danger text-center" role="alert">
- 	<span th:text="${listErrorMessage}"></span>
- </div>  -->
- 
- 
- 
+
  
 <!-- Begin Page Content -->
        
@@ -11,8 +6,8 @@
           <div class="card shadow mb-4">
             
             <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <div class="table-responsive ">
+                <table class=" table table-striped table-bordered table-sm" id="dtCompany" width="100%" cellspacing="0">
                    <thead>
 				      <tr>
 				        <th class="th-sm">Num.
@@ -103,33 +98,11 @@ function deleteCompany(){
     window.location = "deleteCompany/"+id;
 }
 </script>
+
+ 
+ 
+ 
+ 
       <!-- End of Main Content -->
  
-<!--  Inicializacion de la tabla -->
-<script type="text/javascript">
-$(document).ready(function () {
-  $('#dataTable').dataTable({
-    "pagingType": "full_numbers",
-    // Filtros de busqueda
-    initComplete: function () {
-      this.api().columns().every( function () {
-          var column = this;
-          var search = $(`<input class="form-control form-control-sm" type="text" placeholder="Escriba para buscar...">`)
-              .appendTo( $(column.footer()).empty() )
-              .on( 'change input', function () {
-                  var val = $(this).val()
-
-                  column
-                      .search( val ? val : '', true, false )
-                      .draw();
-              } );
-
-      } );
-  }
-  });
-
-  
-
-});
-</script>
 

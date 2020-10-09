@@ -47,7 +47,7 @@ public class MonitorController {
 				Collection<Compliance> complianListAdded= new ArrayList<Compliance>();
 				Collection<Long> complianListRemoved= new ArrayList<Long>();
 				try {
-					// complianListAdded= (Collection<Compliance>) complianceService.createAllComplianceByCompanyId(2L);
+					complianListAdded= (Collection<Compliance>) complianceService.createAllComplianceByCompanyId(2L);
 					complianListRemoved = complianceService.removeAllUseLessComplianceByCompanyId(2L);
 				} catch (ComplianceException e) {
 					

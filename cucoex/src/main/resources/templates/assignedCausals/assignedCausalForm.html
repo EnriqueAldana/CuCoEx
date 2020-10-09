@@ -1,0 +1,194 @@
+
+<section class="form-elegant scrollbar-light-blue">
+
+<form class="needs-validation" novalidate role="form" autocomplete="off"  th:object="${complianceForm}" th:action="@{/editAssignedCausal}" method="post">
+<input class="form-control" type=hidden th:field="${complianceForm.id}"  th:if="${editMode}">
+<input class="form-control" type=hidden th:field="${complianceForm.effectiveDateForCompliance}"  th:if="${editMode}">
+<input class="form-control" type=hidden th:field="${complianceForm.id}"  th:if="${editMode}">
+<input class="form-control" type=hidden th:field="${complianceForm.id}"  th:if="${editMode}">
+<input class="form-control" type=hidden th:field="${complianceForm.id}"  th:if="${editMode}">
+<input class="form-control" type=hidden th:field="${complianceForm.id}"  th:if="${editMode}">
+<input class="form-control" type=hidden th:field="${complianceForm.id}"  th:if="${editMode}">
+
+
+<div class="card">
+
+	    <!-- Card header -->
+	    <div class="card-header" role="tab" id="heading4">
+
+	        <h4 class="mb-0 mt-3 blue-text">
+	          Datos generales de la causal. 
+	        </h4>
+	      </div>
+	    <!-- Card body -->
+	   
+	      <div class="card-body pt-0">
+	         <!-- <div th:include="catCompany/company-data.html" th:remove="tag"></div> -->
+			         <div class="form-group row">
+		   					<label class="col-lg-3 col-form-label form-control-label" for="companyFormcompanyName">Causal</label>
+				   			<div class="col-lg-9">
+				   			 	<p class="card-text" th:text="${complianceForm.causal.causalDescription}"> </p>
+				   			</div> 
+				   	</div>   
+		   			 <div class="form-group row">
+		   					<label class="col-lg-3 col-form-label form-control-label" for="companyFormcompanyName">Cumplimiento</label>
+		   					<div class="col-lg-9">
+		   			 			<p class="card-text" th:text="${complianceForm.causal.causalCumplimiento}"> </p>
+		   			 			</div> 
+		   			</div>  	
+    	</div>
+	    
+</div>
+  <!-- Accordion card -->
+
+  <!-- Accordion card -->
+  <div class="card">
+    	<!-- Card header -->
+	    <div class="card-header" role="tab" id="heading4">
+	        <h4 class="mb-0 mt-3 blue-text">
+	          Instrucciones para su cumplimiento 
+	        </h4>
+    	</div>
+
+    <!-- Card body -->
+    
+      <div class="card-body pt-0">
+      						<div class="form-group row">
+		   							<label class="col-lg-3 col-form-label form-control-label" for="companyFormcompanyName">Lista de instrucciones para el cumplimiento</label>
+						   			<div class="col-lg-9">
+						   			 	<div th:include="assignedCausals/instructionList.html" th:remove="tag"></div>
+						   			</div> 
+				   			</div> 
+       
+      </div>
+ 
+ </div>
+
+ 
+  <!-- Configuracion por tipo de causal -->
+  
+  <div class="card"  th:if="${causal.causalType} == 1">
+    	<!-- Card header -->
+	    <div class="card-header" role="tab" id="heading4">
+	        <h4 class="mb-0 mt-3 blue-text">
+	          Configuración para el cumplimiento 
+	        </h4>
+    	</div>
+
+    <!-- Card body -->
+    
+      <div class="card-body pt-0">
+      
+      					<div class="form-group row">
+    						<label class="col-lg-3 col-form-label form-control-label" for="companyFormfrecuencyToRunMonitor">Estado de conformidad</label>
+   						 	<div class="col-lg-9">
+   		 						<input type="checkbox" class="custom-control-input"  th:field="${complianceForm.isCompliance}" th:disabled="${disableFields}">
+   		 						
+		  						<label class="custom-control-label" for="isEnabled" >Certificado conforme</label>
+   			 					<div class="valid-feedback"></div>
+        						<div class="invalid-feedback">Seleccione si el certificado esta conforme a la reglamentación.</div>
+     	 					</div>
+    					 </div>
+     					<div class="form-group row">
+    						<label class="col-lg-3 col-form-label form-control-label" for="companyFormfrecuencyToRunMonitor">Fecha de vigencia</label>
+   						 	<div class="col-lg-9">
+   		 						<input id="vigencia" th:field="${complianceForm.effectiveDateForCompliance}"  width="276" 
+											required="required" placeholder="Escriba una fecha de vigencia"/>
+										<div class="valid-feedback"></div>
+        								<div class="invalid-feedback">Elija una fecha de vigencia</div>
+     	 					</div>
+    					 </div>
+    					 <div class="form-group row">
+    						<label class="col-lg-3 col-form-label form-control-label" for="companyFormfrecuencyToRunMonitor">Fecha proxima verificacion</label>
+   						 	<div class="col-lg-9">
+   		 						<input id="proximaVerificacion"  th:field="${complianceForm.complianceEvaluationDate}" width="276" 
+											required="required" placeholder="Escriba una fecha de proxima verificacion"/>
+											<div class="valid-feedback"></div>
+        									<div class="invalid-feedback">Elija una fecha de proxima verificación</div>
+     	 					</div>
+    					 </div>
+    						
+      </div>
+
+ 
+ </div>
+ 
+   </section>
+<!--/.Accordion wrapper-->
+	
+   <hr class="mb-0">
+   
+    <div class="form-group row">
+		<div class="col-lg-12 text-center">
+			<a class="btn btn-secondary"  th:href="@{'/editAssignedCausal/cancel'}">Cancelar</a>
+			<!-- ToDO revisar funcionalidad de abrir pop up de actualizar contraseña -->
+			<!-- <button type="button" class="btn btn-secondary" data-toggle="modal" th:if="${editMode}" data-target="#changePasswordModal">Cambio de contraseña</button> -->
+			<a th:if="${causal.causalType} == 1">
+			<input type="submit" class="btn btn-primary"
+				value="Guardar " th:value="${editMode}?'Actualizar causal asignada':'Guardar causal asignada'">
+			</a>
+		</div>
+	</div>
+	
+</form>
+
+
+
+<!--  Con esta funcion implementamos la validacion de los campos por bootstarp -->
+ <script type="text/javascript">
+(function() {
+'use strict';
+window.addEventListener('load', function() {
+// Fetch all the forms we want to apply custom Bootstrap validation styles to
+var forms = document.getElementsByClassName('needs-validation');
+// Loop over them and prevent submission
+var validation = Array.prototype.filter.call(forms, function(form) {
+form.addEventListener('submit', function(event) {
+if (form.checkValidity() === false) {
+event.preventDefault();
+event.stopPropagation();
+}
+form.classList.add('was-validated');
+}, false);
+});
+}, false);
+})();
+</script>
+
+
+<script>
+
+var datepicker, configVigente, configProxima;
+var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+
+configProxima = {
+    locale: 'es-es',
+    iconsLibrary: 'fontawesome',
+    minDate: today,
+    format: 'dd-mm-yy',
+    minDate: today,
+    maxDate: function () {
+            return $('#vigencia').val();
+        }
+        
+};
+configVigente = {
+	    locale: 'es-es',
+	    iconsLibrary: 'fontawesome',
+	    minDate: today,
+	    format: 'dd-mm-yy',
+	    minDate: function () {
+            return $('#proximaVerificacion').val();
+        }
+	    
+	};
+
+$(document).ready(function () {
+    $('#vigencia').datepicker( configVigente);
+    $('#proximaVerificacion').datepicker(configProxima);
+    
+});
+
+
+
+</script>

@@ -1,6 +1,7 @@
 package com.cucoex.controller;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.cucoex.dto.ChangePasswordForm;
+import com.cucoex.entity.Compliance;
 import com.cucoex.entity.User;
 
 @Controller
@@ -22,9 +24,16 @@ public class HomeController {
 	
 	// Inicio de la aplicacion mosyrando el tablero
 	@GetMapping({"/","/index.html"})
-	public String index() {
-		//return "index";
-		return "home";
+	public String index(Model model) {
+		
+		Compliance compliance = new Compliance();
+		LocalDate fechaLocal = LocalDate.of(2020,10,30);
+		
+		compliance.setComplianceEvaluationDate(fechaLocal);
+		model.addAttribute("complianceForm", compliance);
+		
+		return "index";
+		//return "home";
 	}
 	
 	
@@ -37,7 +46,7 @@ public class HomeController {
 	@PostMapping("/loginUser")
 	public String logingUser(@Valid @ModelAttribute("userLoginForm")User user, BindingResult result, Model model) {
 		
-		return "home";
+		return "index";
 		
 	}
 	

@@ -5,16 +5,26 @@ package com.cucoex.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cucoex.entity.Causal;
+import com.cucoex.entity.Company;
 import com.cucoex.entity.Compliance;
+import com.cucoex.entity.ImpExpType;
 import com.cucoex.entity.Instruction;
 import com.cucoex.exception.CausalException;
+import com.cucoex.exception.CompanyException;
+import com.cucoex.exception.ComplianceException;
 import com.cucoex.repository.CausalRepository;
+import com.cucoex.repository.ImpExpTypeRepository;
 
 
 /**
@@ -26,6 +36,13 @@ public class CausalServiceImpl implements CausalService {
 	
 	@Autowired
 	CausalRepository repository;
+	
+	@Autowired
+	ImpExpTypeRepository impExpTypeRepository;
+	
+	@Autowired
+	CompanyService companyService;
+	
 	/**
 	 * 
 	 */
@@ -33,6 +50,47 @@ public class CausalServiceImpl implements CausalService {
 		
 	}
 
+	public Iterable<Causal> getAllCausalByCompanyId(Long id) throws CausalException{
+		Company empresa = new Company();
+		List<Causal> causalList =  new ArrayList<Causal>();
+		
+		try {
+			 empresa= companyService.getCompanyById(id);
+		} catch (CompanyException e) {
+	
+			 throw new CausalException("La empresa " + id + "  no está disponible para proporcionar la lista de causales");
+			
+		}
+		
+		for(ImpExpType  impExpType :  empresa.getImpExpTypeList()) {
+			
+			
+			for (Causal causal: impExpType.getCausalList()) {
+				
+				causalList.add(causal);
+				
+			}
+		}
+		
+		
+		 
+		List<Causal> causalSorted = causalList.stream().collect(Collectors.toList());
+		
+		Collections.sort(causalSorted, (o1, o2) -> o1.getId().compareTo(o2.getId()));
+			
+		return causalSorted;
+		
+	}
+	
+	public Iterable<Causal> getAllCausalByImpExpTypeId (Long impExpTypeId) throws CausalException{
+		Optional<ImpExpType> impExpType = Optional.ofNullable(new ImpExpType());
+	
+			impExpType = impExpTypeRepository.findById(impExpTypeId);
+			
+		return impExpType.get().getCausalList();
+		
+	}
+	
 	@Override
 	public Iterable<Causal> getAllCausals() {
 		

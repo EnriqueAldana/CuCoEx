@@ -17,6 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.OrderColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
@@ -65,6 +67,7 @@ public class ImpExpType implements Serializable {
 	@JoinTable(name="impexptypes_causales"
 		,joinColumns=@JoinColumn(name="impexptype_id")
 		,inverseJoinColumns=@JoinColumn(name="causal_id"))
+	@OrderBy(value = "id ASC")
 	private Set<Causal> causalList;
 	
 	

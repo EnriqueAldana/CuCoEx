@@ -36,7 +36,7 @@
 	<div class="form-group row">
     	<label class="col-lg-3 col-form-label form-control-label" for="companyFormDaysToClimbAlertsToAdministrator">Días considerados para escalar una alerta al administrador</label>
    		 <div class="col-lg-9">
-   		 	<input type="text" th:field="${companyForm.DaysToClimbAlertsToAdministrator}" th:disabled="${disableFields}" class="form-control mb-4" placeholder="Escriba el numero de dias para lescalar una alerta al administrador"
+   		 	<input type="number" min="1" max="365" th:field="${companyForm.DaysToClimbAlertsToAdministrator}" th:disabled="${disableFields}" class="form-control mb-4" placeholder="Escriba el numero de dias para lescalar una alerta al administrador"
    		 	required="required">
    			<div class="alert-danger" th:if="${#fields.hasErrors('DaysToClimbAlertsToAdministrator')}" th:errors="*{DaysToClimbAlertsToAdministrator}">Name Error</div>
    			 	<div class="valid-feedback"></div>
@@ -48,7 +48,7 @@
    	<div class="form-group row">
     	<label class="col-lg-3 col-form-label form-control-label" for="companyFormDaysToClimbAlertsToSupervisor">Días considerados para escalar una alerta al supervisor</label>
    		 <div class="col-lg-9">
-   		 	<input type="text" th:field="${companyForm.DaysToClimbAlertsToSupervisor}" th:disabled="${disableFields}" class="form-control mb-4" placeholder="Escriba el numero de dias para lescalar una alerta al supervisor"
+   		 	<input type="number" min="1" max="365" th:field="${companyForm.DaysToClimbAlertsToSupervisor}" th:disabled="${disableFields}" class="form-control mb-4" placeholder="Escriba el numero de dias para lescalar una alerta al supervisor"
    		 	required="required">
    			<div class="alert-danger" th:if="${#fields.hasErrors('DaysToClimbAlertsToSupervisor')}" th:errors="*{DaysToClimbAlertsToSupervisor}">Name Error</div>
    			 	<div class="valid-feedback"></div>
@@ -62,7 +62,7 @@
      <div class="form-group row">
     	<label class="col-lg-3 col-form-label form-control-label" for="companyFormDaysToDefault">Días de anticipación considerados para considerar estatus "Por Incumplir". Alerta amarilla.</label>
    		 <div class="col-lg-9">
-   		 	<input type="text" th:field="${companyForm.DaysToDefault}" th:disabled="${disableFields}" class="form-control mb-4" placeholder="Escriba el numero de dias de anticipacion para considerar una causal con estatus de Por Incumplir"
+   		 	<input "number" min="1" max="365" th:field="${companyForm.DaysToDefault}" th:disabled="${disableFields}" class="form-control mb-4" placeholder="Escriba el numero de dias de anticipacion para considerar una causal con estatus de Por Incumplir"
    		 	required="required">
    			<div class="alert-danger" th:if="${#fields.hasErrors('DaysToDefault')}" th:errors="*{DaysToDefault}">Name Error</div>
    			 	<div class="valid-feedback"></div>

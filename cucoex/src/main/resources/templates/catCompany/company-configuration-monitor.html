@@ -14,7 +14,7 @@
    	<div class="form-group row">
     	<label class="col-lg-3 col-form-label form-control-label" for="companyFormfrecuencyToRunMonitor">Frecuencia de ejecución expresada en Días</label>
    		 <div class="col-lg-9">
-   		 	<input type="text" th:field="${companyForm.frequencyToRunMonitor}" th:disabled="${disableFields}" class="form-control mb-4" placeholder="Escriba el numero de dias para la ejecución del monitor"
+   		 	<input type="number" min="1" max="365" th:field="${companyForm.frequencyToRunMonitor}" th:disabled="${disableFields}" class="form-control mb-4" placeholder="Escriba el numero de dias para la ejecución del monitor"
    		 	required="required">
    			<div class="alert-danger" th:if="${#fields.hasErrors('frequencyToRunMonitor')}" th:errors="*{frequencyToRunMonitor}">Name Error</div>
    			 	<div class="valid-feedback"></div>

@@ -3,6 +3,7 @@
  */
 package com.cucoex.util;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -20,12 +21,9 @@ public final class Utileria {
 	}
 	
 	
-	public static Date sumarDias(Date fecha, int dias) {
+	public static LocalDate sumarDias(LocalDate fecha, Long dias) {
 		
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(fecha);
-		calendar.add(Calendar.DAY_OF_YEAR, dias);
-		return calendar.getTime();
+		return fecha.plusDays(dias);
 		
 	}
 	

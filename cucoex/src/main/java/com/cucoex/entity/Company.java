@@ -16,6 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.OrderColumn;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
@@ -146,6 +148,7 @@ public class Company implements Serializable {
 			 */
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "companies_impexptypes", joinColumns = @JoinColumn(name = "company_id"), inverseJoinColumns = @JoinColumn(name = "impexptype_id"))
+	@OrderBy(value = "id ASC")
 	private Set<ImpExpType> impExpTypeList;
 
 	

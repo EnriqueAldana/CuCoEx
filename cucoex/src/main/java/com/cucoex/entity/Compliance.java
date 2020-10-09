@@ -4,6 +4,7 @@
 package com.cucoex.entity;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Column;
@@ -16,9 +17,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * @author enrique
@@ -42,14 +46,17 @@ public class Compliance implements Serializable {
 
 	@ManyToOne
     @JoinColumn(name="companyId" ,nullable=false)
+	@NotEmpty
 	private Company company; 
 	
 	@ManyToOne
     @JoinColumn(name="impexptypeId" ,nullable=false)
+	@NotEmpty
 	private ImpExpType impexptype; 
 	
 	@ManyToOne
     @JoinColumn(name="causalId" ,nullable=false)
+	@NotEmpty
 	private Causal causal; 
 	
 	
@@ -57,14 +64,21 @@ public class Compliance implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name="statusId" ,nullable=false)
+	@NotEmpty
 	private Status status;
 		
-		
-	@Column(nullable = false)
-	private Date effectiveDateForCompliance;          // Fecha de Vigencia para cumplimiento
+	@Transient
+	private Boolean isCompliance;
 	
 	@Column(nullable = false)
-	private Date complianceEvaluationDate;				//Fecha en que fue ejecutado el monitor para validar el cumplimiento
+	@NotEmpty
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	private LocalDate effectiveDateForCompliance;          // Fecha de Vigencia para cumplimiento
+	
+	@Column(nullable = false)
+	@NotEmpty
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	private LocalDate complianceEvaluationDate;				//Fecha en que fue ejecutado el monitor para validar el cumplimiento
 			
 	
 
@@ -95,8 +109,8 @@ public class Compliance implements Serializable {
 	 * @param updated
 	 * @param status
 	 */
-	public Compliance(Company company, ImpExpType impexptype, Causal causal, Date effectiveDateForCompliance,
-			Date complianceEvaluationDate, Calendar created, Calendar updated, Status status) {
+	public Compliance(Company company, ImpExpType impexptype, Causal causal, LocalDate effectiveDateForCompliance,
+			LocalDate complianceEvaluationDate, Calendar created, Calendar updated, Status status) {
 		super();
 		this.company = company;
 		this.impexptype = impexptype;
@@ -112,28 +126,28 @@ public class Compliance implements Serializable {
 	/**
 	 * @return the effectiveDateForCompliance
 	 */
-	public Date getEffectiveDateForCompliance() {
+	public LocalDate getEffectiveDateForCompliance() {
 		return effectiveDateForCompliance;
 	}
 
 	/**
 	 * @param effectiveDateForCompliance the effectiveDateForCompliance to set
 	 */
-	public void setEffectiveDateForCompliance(Date effectiveDateForCompliance) {
+	public void setEffectiveDateForCompliance(LocalDate effectiveDateForCompliance) {
 		this.effectiveDateForCompliance = effectiveDateForCompliance;
 	}
 
 	/**
 	 * @return the complianceEvaluationDate
 	 */
-	public Date getComplianceEvaluationDate() {
+	public LocalDate getComplianceEvaluationDate() {
 		return complianceEvaluationDate;
 	}
 
 	/**
 	 * @param complianceEvaluationDate the complianceEvaluationDate to set
 	 */
-	public void setComplianceEvaluationDate(Date complianceEvaluationDate) {
+	public void setComplianceEvaluationDate(LocalDate complianceEvaluationDate) {
 		this.complianceEvaluationDate = complianceEvaluationDate;
 	}
 
@@ -189,6 +203,8 @@ public class Compliance implements Serializable {
 		this.status = status;
 	}
 
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -300,6 +316,24 @@ public class Compliance implements Serializable {
 	 */
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+
+
+	/**
+	 * @return the isCompliance
+	 */
+	public boolean getIsCompliance() {
+		return isCompliance;
+	}
+
+
+
+	/**
+	 * @param isCompliance the isCompliance to set
+	 */
+	public void setIsCompliance(boolean isCompliance) {
+		this.isCompliance = isCompliance;
 	}
 
 	
